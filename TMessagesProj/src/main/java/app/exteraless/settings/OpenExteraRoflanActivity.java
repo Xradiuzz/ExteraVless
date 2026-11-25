@@ -123,7 +123,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
         if (position == legacyRow) {
-            showLegacyPresets();
+            presentFragment(new LegacyUiSettingsPanel());
         } else if (position == danceRow) {
             boolean enabled = !ChatDanceMode.isEnabled();
             ChatDanceMode.setEnabled(enabled);
@@ -178,7 +178,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             TextDetailSettingsCell cell = (TextDetailSettingsCell) holder.itemView;
             if (position == legacyRow) {
                 cell.setTextAndValueAndIcon(getString(R.string.RoflanLegacyTitle),
-                        getString(R.string.RoflanLegacyInfo), R.drawable.msg_theme, true);
+                        "Профили и точная настройка компонентов", R.drawable.msg_theme, true);
             } else if (position == danceRow) {
                 cell.setTextAndValueAndIcon(getString(R.string.ExteraRoflanDanceChats),
                         ChatDanceMode.isEnabled() ? getString(R.string.RoflanDanceEnabled) : getString(R.string.RoflanDanceDisabled),
