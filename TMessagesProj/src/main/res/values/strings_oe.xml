@@ -125,4 +125,6 @@
     <string name="RoflanRouletteDone">Done</string>
     <string name="RoflanRouletteResult">Event: %1$s</string>
     <string name="RoflanLegacyApplied">Visual preset applied</string>
+    <string name="RoflanAppIconsTitle">Application icons</string>
+    <string name="RoflanAppIconsInfo">Choose the launcher icon</string>
 </resources>
