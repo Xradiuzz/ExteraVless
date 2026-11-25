@@ -398,7 +398,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
             AppearanceConfig.separateHeaders.setConfigBool(!old);
             AppearanceConfig.sectionRadius.setConfigInt(classic ? 0 : (old ? 12 : 20));
             AppearanceConfig.dividerStyle.setConfigInt(1);
-            AppearanceConfig.centerTitle.setConfigBool(false);
+            AppearanceConfig.setCenterTitle(false);
             AppearanceConfig.gooeyAvatarAnimation.setConfigBool(!old);
             if (getParentActivity() != null) {
                 Toast.makeText(getParentActivity(), getString(R.string.RoflanLegacyRestart), Toast.LENGTH_LONG).show();
