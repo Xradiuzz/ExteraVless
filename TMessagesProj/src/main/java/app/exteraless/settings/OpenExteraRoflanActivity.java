@@ -197,7 +197,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                         caption.isEmpty() ? "Не задана" : caption, R.drawable.msg_edit, true);
             } else if (position == notificationSoundRow) {
                 cell.setTextAndValueAndIcon("Звуки уведомлений",
-                        "Глобальные и для отдельных чатов", R.drawable.msg_sound, false);
+                        "Глобальные и для отдельных чатов", R.drawable.msg_notifications, false);
             }
         }
     }
