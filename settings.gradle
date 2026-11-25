@@ -21,7 +21,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "exteraless"
+rootProject.name = "ExteraRoflan"
 include ':TMessagesProj'
 
 gradle.ext.androidxMediaModulePrefix = 'TMessagesProj_Modules:media3:media-'

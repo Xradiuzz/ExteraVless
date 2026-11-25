@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="assets/logo.png" width="128" alt="exteraless">
+<img src="assets/logo.png" width="128" alt="ExteraRoflan">
 
-# exteraless
+# ExteraRoflan
 
-Открытая версия exteraGram — с моделью разрешений для плагинов
+Персонализированный Telegram-клиент с автоматизацией, приватностью и расширенной кастомизацией
 
 [![Канал](https://img.shields.io/badge/Telegram-@exteraless-2CA5E0?logo=telegram&logoColor=white)](https://t.me/exteraless)
 
@@ -14,7 +14,7 @@
 
 ## Что это
 
-exteraless — форк [NagramX](https://github.com/risin42/NagramX), в котором возможности
+ExteraRoflan — форк [NagramX](https://github.com/risin42/NagramX), в котором возможности
 exteraGram реализованы с открытым исходным кодом. Основа — Telegram для Android 13.1.1.
 
 Отдельный упор — **безопасность плагинов**. В exteraGram плагин не ограничен ни в чём;
