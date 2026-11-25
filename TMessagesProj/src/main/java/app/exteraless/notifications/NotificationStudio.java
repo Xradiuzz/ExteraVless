@@ -14,7 +14,7 @@ import java.util.List;
 
 /** User-facing notification presentation preferences. Sound routing remains Telegram-native. */
 public final class NotificationStudio {
-    public static final String DEFAULT_CAPTION = "Здесь могла быть ваша реклама";
+    public static final String DEFAULT_CAPTION = "";
     public static final String[] STYLE_NAMES = {
             "Оригинальный Telegram", "Крупный текст", "Список сообщений",
             "Диалог", "Карточка с аватаром", "Компактный",
@@ -46,8 +46,7 @@ public final class NotificationStudio {
     }
 
     public static void setCaption(String caption) {
-        String value = caption == null ? DEFAULT_CAPTION : caption.trim();
-        if (value.isEmpty()) value = DEFAULT_CAPTION;
+        String value = caption == null ? "" : caption.trim();
         if (value.length() > 64) value = value.substring(0, 64);
         prefs().edit().putString(KEY_CAPTION, value).apply();
     }
