@@ -389,7 +389,9 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final RectF bounds = new RectF();
         private final String[] labels = {
-                "CLOSE", "DANCE", "CALM", "QUAKE", "DARK", "FLIP", "ALARM", "THEME"
+                "LUCK", "CALM", "PET", "THEME", "CLEAN", "PEACE",
+                "DANCE", "QUAKE", "DARK", "FLIP", "ALARM", "EXIT",
+                "CHAOS", "SHAKE", "GIFT", "CURSE"
         };
         private final int[] colors = {
                 0xFF65B979, 0xFF69A9E8, 0xFF77C9A0, 0xFF8CBA70,
