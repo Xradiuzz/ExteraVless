@@ -67,7 +67,6 @@ public final class ChatDanceMode {
         dance.playTogether(bounce, tilt);
         dance.setInterpolator(new AccelerateDecelerateInterpolator());
         dance.setStartDelay((position % 7) * 65L);
-        dance.setStartDelay((position % 7) * 65L);
         dance.addListener(new android.animation.AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(android.animation.Animator animation) {
