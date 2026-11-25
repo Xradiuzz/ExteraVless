@@ -96,4 +96,7 @@
     <string name="OEProfileJoinDateUnknown">Join date is unavailable</string>
     <string name="ExteraVlessWallpapers">Chat wallpapers and themes</string>
     <string name="ExteraVlessWallpapersInfo">Backgrounds, colors and chat appearance</string>
+    <string name="ExteraVlessDanceChats">Dancing chats</string>
+    <string name="ExteraVlessDanceChatsOn">Tap to stop the dance</string>
+    <string name="ExteraVlessDanceChatsOff">Make the chat list bounce around</string>
 </resources>
