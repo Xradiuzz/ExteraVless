@@ -83,4 +83,10 @@
     <string name="RoflanEventFlip">Интерфейс перевернулся!</string>
     <string name="RoflanEventAlarm">Тревога! Виброоповещение.</string>
     <string name="RoflanEventTheme">Хаос тем: выбери новый вид.</string>
+    <string name="RoflanLegacyTitle">Старый интерфейс Telegram</string>
+    <string name="RoflanLegacyInfo">Выбери классический вариант оформления Telegram</string>
+    <string name="RoflanLegacy2018">Telegram 2018 — классический</string>
+    <string name="RoflanLegacy2021">Telegram 2021 — компактный</string>
+    <string name="RoflanLegacyModern">Современный ExteraRoflan</string>
+    <string name="RoflanLegacyRestart">Оформление применено. Приложение перезапустится.</string>
 </resources>
