@@ -232,6 +232,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
             return;
         }
         applicationInited = true;
+        final long postInitStarted = SystemClock.elapsedRealtime();
         NativeLoader.initNativeLibs(ApplicationLoader.applicationContext);
 
         try {
@@ -297,6 +298,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
         app.exteraless.utils.UtilsConfig.init();
         app.exteraless.glyph.GlyphConfig.init();
         app.exteraless.glyph.GlyphController.getInstance().init();
+        FileLog.d("startup profile: config init " + (SystemClock.elapsedRealtime() - postInitStarted) + " ms");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // Суффикс набора Monet запекается в ThemeInfo.assetName при первой загрузке
             // класса Theme. Если она случилась до загрузки конфигов (процесс поднялся
@@ -326,6 +328,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
             }
         }
 
+        FileLog.d("startup profile: accounts init " + (SystemClock.elapsedRealtime() - postInitStarted) + " ms");
         PushListenerController.reconcilePushRegistration();
 
         // init fcm
@@ -338,6 +341,7 @@ public class ApplicationLoader extends Application implements CameraXConfig.Prov
             DownloadController.getInstance(a);
         }
         BillingController.getInstance().startConnection();
+        FileLog.d("startup profile: post-init complete " + (SystemClock.elapsedRealtime() - postInitStarted) + " ms");
         FileLog.trimLogsDirInBackground();
         // HTML widgets: the isolated engine's process up front, after the app's own start, so that a widget's first
         // frame does not wait for it.
