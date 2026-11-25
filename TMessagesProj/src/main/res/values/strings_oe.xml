@@ -110,4 +110,10 @@
     <string name="RoflanEventFlip">The interface turned upside down!</string>
     <string name="RoflanEventAlarm">Emergency alarm! Haptic alert.</string>
     <string name="RoflanEventTheme">Theme chaos: choose a new look.</string>
+    <string name="RoflanLegacyTitle">Old Telegram interface</string>
+    <string name="RoflanLegacyInfo">Choose a classic Telegram visual preset</string>
+    <string name="RoflanLegacy2018">Telegram 2018 — classic</string>
+    <string name="RoflanLegacy2021">Telegram 2021 — compact</string>
+    <string name="RoflanLegacyModern">Modern ExteraRoflan</string>
+    <string name="RoflanLegacyRestart">The interface preset is applied. The app will restart.</string>
 </resources>
