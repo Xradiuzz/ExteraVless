@@ -14,22 +14,37 @@ import org.telegram.ui.Components.UniversalFragment;
 
 import java.util.ArrayList;
 
-/** Settings for seasonal, animated chat-list decorations. */
+/** Settings for seasonal chat-header decorations and animated particle effects. */
 public class RoflanDecorationPanel extends UniversalFragment {
     private static final int MODE = 1, DENSITY = 2;
-    private static final String[] MODES = {"Выключено", "Новогодняя гирлянда и игрушки", "Падающая сакура", "Лёгкое конфетти"};
+    private static final String[] MODES = {
+            "Выключено",
+            "🎄 Новый год · детальная гирлянда + снег",
+            "🌸 Падающая сакура",
+            "🎊 Конфетти",
+            "🍗 Летящие наггетсы",
+            "💗 Парящие сердечки",
+            "✨ Звёздная пыль",
+            "🍂 Осенние листья",
+            "🫧 Мыльные пузыри",
+            "🔥 Искры и огоньки",
+            "🎵 Музыкальные ноты",
+            "🍬 Леденцы и сладости",
+            "🪙 Золотые монетки"
+    };
 
     @Override protected CharSequence getTitle() { return "Декорации чатов"; }
 
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         int mode = ChatDecorationConfig.mode();
-        items.add(UItem.asHeader("Анимированные украшения"));
+        items.add(UItem.asHeader("Шапка чатов и эффекты"));
         items.add(UItem.asButton(MODE, "Эффект · " + MODES[mode]));
-        items.add(UItem.asButton(DENSITY, "Количество частиц · " + ChatDecorationConfig.intensity()));
+        items.add(UItem.asButton(DENSITY, "Интенсивность · " + ChatDecorationConfig.intensity()));
         items.add(UItem.asShadow(null));
-        items.add(UItem.asHeader("Как это работает"));
-        items.add(UItem.asButton(99, "Украшения рисуются поверх списка чатов, не перехватывают нажатия и работают только на главном экране чатов."));
+        items.add(UItem.asHeader("О режимах"));
+        items.add(UItem.asButton(99, "Новогодний режим сочетает украшенную гирлянду, веточки, игрушки, бантики и падающий снег. Остальные режимы — самостоятельные эффекты частиц."));
+        items.add(UItem.asButton(100, "Эффекты рисуются поверх списка чатов, не перехватывают нажатия и автоматически обновляются при смене режима."));
     }
 
     @Override
@@ -37,7 +52,7 @@ public class RoflanDecorationPanel extends UniversalFragment {
         Activity a = getParentActivity();
         if (a == null) return;
         if (item.id == MODE) {
-            new AlertDialog.Builder(a).setTitle("Выбери декорацию").setItems(MODES, (d, which) -> {
+            new AlertDialog.Builder(a).setTitle("Выбери эффект").setItems(MODES, (d, which) -> {
                 ChatDecorationConfig.setMode(which);
                 refresh();
             }).setNegativeButton("Отмена", null).show();
@@ -46,10 +61,12 @@ public class RoflanDecorationPanel extends UniversalFragment {
             input.setSingleLine(true);
             input.setInputType(2);
             input.setText(String.valueOf(ChatDecorationConfig.intensity()));
-            new AlertDialog.Builder(a).setTitle("Количество частиц (1–60)").setView(input)
+            new AlertDialog.Builder(a).setTitle("Интенсивность частиц (1–60)").setView(input)
                     .setPositiveButton("Сохранить", (d, w) -> {
                         try {
-                            ChatDecorationConfig.setIntensity(Integer.parseInt(input.getText().toString()));
+                            int value = Integer.parseInt(input.getText().toString());
+                            if (value < 1 || value > 60) throw new NumberFormatException();
+                            ChatDecorationConfig.setIntensity(value);
                             refresh();
                         } catch (Exception e) {
                             Toast.makeText(a, "Введи число от 1 до 60", Toast.LENGTH_SHORT).show();
