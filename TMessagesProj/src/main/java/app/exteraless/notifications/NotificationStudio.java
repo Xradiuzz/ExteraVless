@@ -54,7 +54,10 @@ public final class NotificationStudio {
         else if (automation == 2) builder.setPriority(NotificationCompat.PRIORITY_LOW);
         String caption = getCaption();
         if (!caption.isEmpty()) builder.setSubText(caption);
-        else builder.setSubText(null);
+        else if (RoflanSuite.inboxEnabled()) {
+            String[] categories = {"Важное", "Требует ответа", "Шум", "Позже"};
+            builder.setSubText("Smart Inbox · " + categories[RoflanSuite.classify(body, false, true)]);
+        } else builder.setSubText(null);
 
         switch (getStyle()) {
             case 1:
