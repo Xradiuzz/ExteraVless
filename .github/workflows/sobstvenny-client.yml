@@ -1,4 +1,4 @@
-name: ExteraVless — Android APK
+name: ExteraRoflan — optimized Android APK
 
 on:
   push:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build ARM64 debug APK
+    name: Build optimized ARM64 release APK
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
@@ -82,12 +82,12 @@ jobs:
           printf 'CHAQUOPY_BUILD_PYTHON=%s\n' "$(which python3.11)" >> local.properties
 
       - name: Build debug APK
-        run: ./gradlew --no-daemon :TMessagesProj:assembleDebug
+        run: ./gradlew --no-daemon :TMessagesProj:assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: ExteraVless-ARM64-debug
-          path: TMessagesProj/build/outputs/apk/debug/*.apk
+          name: ExteraRoflan-ARM64-release
+          path: TMessagesProj/build/outputs/apk/release/*.apk
           if-no-files-found: error
           retention-days: 14
