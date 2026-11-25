@@ -246,7 +246,7 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
                     } else if (position == appearanceRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraAppearance), R.drawable.msg_theme, true);
                     } else if (position == roflanRow) {
-                        cell.setTextAndIcon(getString(R.string.RoflanCategoryTitle), R.drawable.ic_roflan_chicken, true);
+                        cell.setTextAndIcon(getString(R.string.RoflanCategoryTitle), R.drawable.ic_roflan_chicken_outline, true);
                     } else if (position == chatsRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraChats), R.drawable.msg_discussion, true);
                     } else if (position == pluginsRow) {
