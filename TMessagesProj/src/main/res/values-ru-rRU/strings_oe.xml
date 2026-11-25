@@ -69,4 +69,7 @@
     <string name="AppIconsKeep">Оставить эту</string>
     <string name="ExteraVlessWallpapers">Обои и темы чатов</string>
     <string name="ExteraVlessWallpapersInfo">Фоны, цвета и оформление переписки</string>
+    <string name="ExteraVlessDanceChats">Танцующие чаты</string>
+    <string name="ExteraVlessDanceChatsOn">Нажми, чтобы остановить танец</string>
+    <string name="ExteraVlessDanceChatsOff">Заставить список чатов подпрыгивать</string>
 </resources>
