@@ -57,7 +57,6 @@ jobs:
       - name: Install Android 37 preview platform
         shell: bash
         run: |
-          yes | sdkmanager --channel=3 --licenses
           sdkmanager --channel=3 "platforms;android-37"
 
       - name: Configure local.properties
