@@ -147,10 +147,6 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
     private int linksHeaderRow;
     private int appNavigationRow;
     private int wallpapersRow;
-    private int legacyInterfaceRow;
-    private int danceChatsRow;
-    private int iconPacksRow;
-    private int eventRouletteRow;
     private int emojiSetsRow;
     private int pillStackRow;
     private int playerStyleRow;
@@ -210,10 +206,6 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         linksHeaderRow = addRow("linksHeader");
         appNavigationRow = addRow("appNavigation");
         wallpapersRow = addRow("wallpapers");
-        legacyInterfaceRow = addRow("legacyInterface");
-        danceChatsRow = addRow("danceChats");
-        iconPacksRow = addRow("iconPacks");
-        eventRouletteRow = addRow("eventRoulette");
         emojiSetsRow = addRow("emojiSets", "EmojiSets");
         pillStackRow = addRow("pillStack");
         playerStyleRow = addRow("playerStyle");
@@ -374,93 +366,6 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                             }
                         })
                 .show();
-    }
-
-    private void showLegacyInterfaceSelector() {
-        if (getParentActivity() == null) return;
-        String[] options = {
-                getString(R.string.RoflanLegacy2018),
-                getString(R.string.RoflanLegacy2021),
-                getString(R.string.RoflanLegacyModern)
-        };
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.RoflanLegacyTitle));
-        builder.setItems(options, (dialog, which) -> {
-            boolean classic = which == 0;
-            boolean old = which == 0 || which == 1;
-            AppearanceConfig.newLoadingStyle.setConfigBool(!old);
-            AppearanceConfig.newChatHeaderStyle.setConfigBool(false);
-            AppearanceConfig.newNavigationBarStyle.setConfigBool(false);
-            AppearanceConfig.m3ListItems.setConfigBool(false);
-            AppearanceConfig.md3Player.setConfigBool(!old);
-            AppearanceConfig.md3MiniPlayer.setConfigBool(!old);
-            AppearanceConfig.squareFab.setConfigBool(!old);
-            AppearanceConfig.separateHeaders.setConfigBool(!old);
-            AppearanceConfig.sectionRadius.setConfigInt(classic ? 0 : (old ? 12 : 20));
-            AppearanceConfig.dividerStyle.setConfigInt(1);
-            AppearanceConfig.setCenterTitle(false);
-            AppearanceConfig.gooeyAvatarAnimation.setConfigBool(!old);
-            if (getParentActivity() != null) {
-                Toast.makeText(getParentActivity(), getString(R.string.RoflanLegacyRestart), Toast.LENGTH_LONG).show();
-                Activity activity = getParentActivity();
-                AppRestartHelper.triggerRebirth(activity, new Intent(activity, LaunchActivity.class));
-            }
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
-    }
-
-    private void showRoflanRoulette() {
-        if (getParentActivity() == null) return;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(getString(R.string.RoflanRouletteTitle));
-        builder.setMessage(getString(R.string.RoflanRouletteInfo));
-        builder.setPositiveButton(getString(R.string.RoflanRouletteSpin), (dialog, which) -> {
-            int event = new Random().nextInt(8);
-            android.view.View root = getParentActivity().getWindow().getDecorView();
-            switch (event) {
-                case 0:
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventClose), Toast.LENGTH_SHORT).show();
-                    root.postDelayed(() -> getParentActivity().finish(), 500);
-                    break;
-                case 1:
-                    app.exteraless.fun.ChatDanceMode.setEnabled(true);
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventDance), Toast.LENGTH_SHORT).show();
-                    finishFragment();
-                    break;
-                case 2:
-                    app.exteraless.fun.ChatDanceMode.setEnabled(false);
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventCalm), Toast.LENGTH_SHORT).show();
-                    finishFragment();
-                    break;
-                case 3:
-                    root.animate().translationX(AndroidUtilities.dp(14)).setDuration(65).withEndAction(() ->
-                            root.animate().translationX(-AndroidUtilities.dp(14)).setDuration(65).withEndAction(() ->
-                                    root.animate().translationX(0).setDuration(65).start()).start()).start();
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventEarthquake), Toast.LENGTH_SHORT).show();
-                    break;
-                case 4:
-                    root.animate().alpha(0.08f).setDuration(160).withEndAction(() ->
-                            root.animate().alpha(1f).setDuration(260).start()).start();
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventBlackout), Toast.LENGTH_SHORT).show();
-                    break;
-                case 5:
-                    root.animate().rotation(180f).setDuration(350).withEndAction(() ->
-                            root.animate().rotation(0f).setDuration(350).start()).start();
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventFlip), Toast.LENGTH_SHORT).show();
-                    break;
-                case 6:
-                    root.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventAlarm), Toast.LENGTH_LONG).show();
-                    break;
-                default:
-                    presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
-                    Toast.makeText(getParentActivity(), getString(R.string.RoflanEventTheme), Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        });
-        builder.setNegativeButton(getString(R.string.Cancel), null);
-        showDialog(builder.create());
     }
 
     private void showSelector(int position, String title, CharSequence[] items, ConfigItem item, Runnable after) {
@@ -710,19 +615,6 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         if (position == wallpapersRow) {
             // Штатный менеджер Telegram: темы и фоновые изображения.
             presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
-            return;
-        } else if (position == legacyInterfaceRow) {
-            showLegacyInterfaceSelector();
-            return;
-        } else if (position == danceChatsRow) {
-            app.exteraless.fun.ChatDanceMode.setEnabled(!app.exteraless.fun.ChatDanceMode.isEnabled());
-            finishFragment();
-            return;
-        } else if (position == eventRouletteRow) {
-            showRoflanRoulette();
-            return;
-        } else if (position == iconPacksRow) {
-            presentFragment(new IconPacksActivity());
             return;
         } else if (position == pillStackRow) {
             presentFragment(new PillStackSettingsActivity());
@@ -1206,17 +1098,6 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                         cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceNavigation), getString(R.string.OEAppearanceNavigationSub), R.drawable.msg_newphone, true);
                     } else if (position == wallpapersRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessWallpapers), getString(R.string.ExteraVlessWallpapersInfo), R.drawable.msg_theme, true);
-                    } else if (position == legacyInterfaceRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.RoflanLegacyTitle), getString(R.string.RoflanLegacyInfo), R.drawable.msg_theme, true);
-                    } else if (position == danceChatsRow) {
-                        boolean enabled = app.exteraless.fun.ChatDanceMode.isEnabled();
-                        cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessDanceChats),
-                                getString(enabled ? R.string.ExteraVlessDanceChatsOn : R.string.ExteraVlessDanceChatsOff),
-                                R.drawable.msg_emoji_smiles, true);
-                    } else if (position == eventRouletteRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.RoflanRouletteTitle), getString(R.string.RoflanRouletteInfo), R.drawable.msg_filled_data_music, true);
-                    } else if (position == iconPacksRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceIconPacks), getString(R.string.OEAppearanceIconPacksInfo), R.drawable.msg_sticker, true);
                     } else if (position == emojiSetsRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.EmojiSets), getString(NekoConfig.useSystemEmoji.Bool()
                                 ? R.string.OEAppearanceUseSystemEmoji : R.string.OEAppearanceEmojiSetsInfo), R.drawable.msg_emoji_smiles, true);
@@ -1293,8 +1174,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                 return TYPE_INFO_PRIVACY;
             } else if (position == fabShapeRow) {
                 return TYPE_FAB_SHAPE;
-            } else if (position == appNavigationRow || position == wallpapersRow || position == legacyInterfaceRow || position == danceChatsRow || position == iconPacksRow || position == eventRouletteRow
-                    || position == emojiSetsRow || position == pillStackRow || position == playerStyleRow || position == hidingRow) {
+            } else if (position == appNavigationRow || position == wallpapersRow || position == emojiSetsRow || position == pillStackRow || position == playerStyleRow || position == hidingRow) {
                 return TYPE_DETAIL_SETTINGS;
             } else if (position == md3GroupRow || position == iosGroupRow) {
                 return TYPE_EXPANDABLE_SWITCH;
