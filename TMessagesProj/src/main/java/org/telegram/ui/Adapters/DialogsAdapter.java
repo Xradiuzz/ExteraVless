@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import org.telegram.messenger.AndroidUtilities;
+import app.exteraless.fun.ChatDanceMode;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
@@ -1226,6 +1227,12 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 }
                 break;
             }
+        }
+        if (holder.itemView instanceof DialogCell) {
+            boolean isChatRow = holder.getItemViewType() == VIEW_TYPE_DIALOG
+                    || holder.getItemViewType() == VIEW_TYPE_DIALOG_COMMUNITY
+                    || holder.getItemViewType() == VIEW_TYPE_FORWARD_TO_STORIES_CELL;
+            ChatDanceMode.apply((DialogCell) holder.itemView, isChatRow && ChatDanceMode.isEnabled(), i);
         }
         if (i >= dialogsCount + 1) {
             holder.itemView.setAlpha(1f);
