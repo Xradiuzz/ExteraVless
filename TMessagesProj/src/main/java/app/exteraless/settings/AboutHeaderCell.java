@@ -64,8 +64,8 @@ public class AboutHeaderCell extends LinearLayout {
             }
         };
         logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        logo.setBackgroundColor(LOGO_BACKGROUND);
-        logo.setImageResource(R.drawable.sobstvenny_client_mark);
+        logo.setBackgroundColor(0xFFFFFFFF);
+        logo.setImageResource(R.mipmap.ic_launcher_roflan);
         logo.setOnLongClickListener(v -> {
             IconPacksConfig.toggleSystemIconShape();
             IconShapeHelper.invalidate();
