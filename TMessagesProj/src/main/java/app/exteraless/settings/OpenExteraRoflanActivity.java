@@ -61,6 +61,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     private int notificationCaptionRow;
     private int notificationSoundRow;
     private int featureHubRow;
+    private int colorStudioRow;
 
     // Первые шесть секторов — благоприятные, остальные — испытания.
     private static final String[] EVENT_LABELS = {
@@ -87,6 +88,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         notificationCaptionRow = addRow("roflanNotificationCaption");
         notificationSoundRow = addRow("roflanNotificationSound");
         featureHubRow = addRow("roflanFeatureHub");
+        colorStudioRow = addRow("roflanColorStudio");
         dividerRow = addRow();
     }
 
@@ -141,10 +143,14 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             showNotificationStyleDialog();
         } else if (position == notificationCaptionRow) {
             showNotificationCaptionDialog();
-        } else if (position == notificationSoundRow) {
+        } else if (position == colorStudioRow) {
+                cell.setTextAndValueAndIcon("Цветовая студия", "RGB-фон и цветные темы чатов", R.drawable.msg_theme, true);
+            } else if (position == notificationSoundRow) {
             presentFragment(new NotificationsSettingsActivity());
         } else if (position == featureHubRow) {
             presentFragment(new RoflanFeatureHubActivity());
+        } else if (position == colorStudioRow) {
+            presentFragment(new RoflanColorStudio());
         }
     }
 
