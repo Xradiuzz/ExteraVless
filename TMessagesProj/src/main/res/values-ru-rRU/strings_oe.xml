@@ -89,4 +89,13 @@
     <string name="RoflanLegacy2021">Telegram 2021 — компактный</string>
     <string name="RoflanLegacyModern">Современный ExteraRoflan</string>
     <string name="RoflanLegacyRestart">Оформление применено. Приложение перезапустится.</string>
+    <string name="RoflanCategoryTitle">Roflan</string>
+    <string name="RoflanSectionHeader">Функции Roflan</string>
+    <string name="RoflanDanceEnabled">Включено — нажми, чтобы остановить</string>
+    <string name="RoflanDanceDisabled">Нажми, чтобы чаты начали танцевать</string>
+    <string name="RoflanRouletteReady">Крути рулетку, чтобы запустить случайное событие</string>
+    <string name="RoflanRouletteSpinning">Рулетка вращается…</string>
+    <string name="RoflanRouletteDone">Готово</string>
+    <string name="RoflanRouletteResult">Выпало событие: %1$s</string>
+    <string name="RoflanLegacyApplied">Визуальный пресет применён</string>
 </resources>
