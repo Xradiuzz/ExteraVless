@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,10 +32,12 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.ThemeActivity;
+import org.telegram.ui.NotificationsSettingsActivity;
 
 import app.exteraless.appearance.AppearanceConfig;
 import app.exteraless.fun.ChatDanceMode;
 import app.exteraless.fun.LizardPetOverlay;
+import app.exteraless.notifications.NotificationStudio;
 import app.exteraless.icons.IconPacksActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.config.ConfigItem;
@@ -53,6 +56,9 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     private int iconPacksRow;
     private int rouletteRow;
     private int dividerRow;
+    private int notificationStyleRow;
+    private int notificationCaptionRow;
+    private int notificationSoundRow;
 
     // Первые шесть секторов — благоприятные, остальные — испытания.
     private static final String[] EVENT_LABELS = {
@@ -75,6 +81,9 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         appIconsRow = addRow("roflanAppIcons");
         iconPacksRow = addRow("roflanIconPacks");
         rouletteRow = addRow("roflanRoulette");
+        notificationStyleRow = addRow("roflanNotificationStyle");
+        notificationCaptionRow = addRow("roflanNotificationCaption");
+        notificationSoundRow = addRow("roflanNotificationSound");
         dividerRow = addRow();
     }
 
@@ -125,6 +134,12 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             presentFragment(new IconPacksActivity());
         } else if (position == rouletteRow) {
             showAnimatedRoulette();
+        } else if (position == notificationStyleRow) {
+            showNotificationStyleDialog();
+        } else if (position == notificationCaptionRow) {
+            showNotificationCaptionDialog();
+        } else if (position == notificationSoundRow) {
+            presentFragment(new NotificationsSettingsActivity());
         }
     }
 
@@ -173,7 +188,55 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                 cell.setTextAndValueAndIcon(getString(R.string.RoflanRouletteTitle),
                         getString(R.string.RoflanRouletteInfo), R.drawable.msg_filled_data_music, false);
             }
+            else if (position == notificationStyleRow) {
+                cell.setTextAndValueAndIcon("Стиль уведомлений",
+                        NotificationStudio.STYLE_NAMES[NotificationStudio.getStyle()], R.drawable.msg_notifications, true);
+            } else if (position == notificationCaptionRow) {
+                String caption = NotificationStudio.getCaption();
+                cell.setTextAndValueAndIcon("Своя подпись",
+                        caption.isEmpty() ? "Не задана" : caption, R.drawable.msg_edit, true);
+            } else if (position == notificationSoundRow) {
+                cell.setTextAndValueAndIcon("Звуки уведомлений",
+                        "Глобальные и для отдельных чатов", R.drawable.msg_sound, false);
+            }
         }
+    }
+
+    private void showNotificationStyleDialog() {
+        Activity activity = getParentActivity();
+        if (activity == null) return;
+        new AlertDialog.Builder(activity)
+                .setTitle("Стиль уведомлений")
+                .setItems(NotificationStudio.STYLE_NAMES, (dialog, which) -> {
+                    NotificationStudio.setStyle(which);
+                    if (listAdapter != null) listAdapter.notifyDataSetChanged();
+                    Toast.makeText(activity, "Стиль: " + NotificationStudio.STYLE_NAMES[which], Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(getString(R.string.Cancel), null)
+                .show();
+    }
+
+    private void showNotificationCaptionDialog() {
+        Activity activity = getParentActivity();
+        if (activity == null) return;
+        EditText input = new EditText(activity);
+        input.setSingleLine(true);
+        input.setHint("Например: не забудь улыбнуться");
+        input.setText(NotificationStudio.getCaption());
+        new AlertDialog.Builder(activity)
+                .setTitle("Своя подпись к уведомлениям")
+                .setMessage("Подпись будет отображаться дополнительной строкой в шторке. Максимум 64 символа.")
+                .setView(input)
+                .setPositiveButton("Сохранить", (dialog, which) -> {
+                    NotificationStudio.setCaption(input.getText().toString());
+                    if (listAdapter != null) listAdapter.notifyDataSetChanged();
+                })
+                .setNeutralButton("Очистить", (dialog, which) -> {
+                    NotificationStudio.setCaption("");
+                    if (listAdapter != null) listAdapter.notifyDataSetChanged();
+                })
+                .setNegativeButton(getString(R.string.Cancel), null)
+                .show();
     }
 
     private void showLegacyPresets() {
