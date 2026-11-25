@@ -47,6 +47,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     private int headerRow;
     private int legacyRow;
     private int danceRow;
+    private int appIconsRow;
     private int iconPacksRow;
     private int rouletteRow;
     private int dividerRow;
@@ -67,6 +68,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         headerRow = addRow("roflanHeader");
         legacyRow = addRow("roflanLegacy");
         danceRow = addRow("roflanDance");
+        appIconsRow = addRow("roflanAppIcons");
         iconPacksRow = addRow("roflanIconPacks");
         rouletteRow = addRow("roflanRoulette");
         dividerRow = addRow();
@@ -113,6 +115,8 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                     ? getString(R.string.RoflanDanceEnabled)
                     : getString(R.string.RoflanDanceDisabled), Toast.LENGTH_SHORT).show();
             finishFragment();
+        } else if (position == appIconsRow) {
+            presentFragment(new app.exteraless.appicons.AppIconsActivity());
         } else if (position == iconPacksRow) {
             presentFragment(new IconPacksActivity());
         } else if (position == rouletteRow) {
@@ -155,6 +159,9 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                 cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessDanceChats),
                         ChatDanceMode.isEnabled() ? getString(R.string.RoflanDanceEnabled) : getString(R.string.RoflanDanceDisabled),
                         R.drawable.msg_discussion, true);
+            } else if (position == appIconsRow) {
+                cell.setTextAndValueAndIcon(getString(R.string.RoflanAppIconsTitle),
+                        getString(R.string.RoflanAppIconsInfo), R.drawable.msg_theme, true);
             } else if (position == iconPacksRow) {
                 cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceIconPacks),
                         getString(R.string.OEAppearanceIconPacksInfo), R.drawable.msg_sticker, true);
