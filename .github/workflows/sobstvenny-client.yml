@@ -81,7 +81,7 @@ jobs:
           printf 'sdk.dir=%s\n' "$ANDROID_HOME" > local.properties
           printf 'CHAQUOPY_BUILD_PYTHON=%s\n' "$(which python3.11)" >> local.properties
 
-      - name: Build debug APK
+      - name: Build optimized release APK
         run: ./gradlew --no-daemon :TMessagesProj:assembleRelease
 
       - name: Upload APK
