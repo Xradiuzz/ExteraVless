@@ -58,7 +58,7 @@
     <string name="AppIconInfoNox"><!-- сюда подпись --></string>
     <string name="OpenExteraPreferences">ExteraRoflan</string>
     <string name="OpenExteraDesignSection">Design</string>
-    <string name="OpenExteraDesigner">Icons and design</string>
+    <string name="OpenExteraDesigner">Fork author</string>
     <string name="OpenExteraDesignStudio">Design studio</string>
     <string name="OEDownloadEmojiPacks">Download emoji packs</string>
 
@@ -94,11 +94,11 @@
     <string name="OEProfileJoinedChannel">You subscribed to **%1$s** on %2$s</string>
     <string name="OEProfileChatCreated">**%1$s** was created on %2$s</string>
     <string name="OEProfileJoinDateUnknown">Join date is unavailable</string>
-    <string name="ExteraVlessWallpapers">Chat wallpapers and themes</string>
-    <string name="ExteraVlessWallpapersInfo">Backgrounds, colors and chat appearance</string>
-    <string name="ExteraVlessDanceChats">Dancing chats</string>
-    <string name="ExteraVlessDanceChatsOn">Tap to stop the dance</string>
-    <string name="ExteraVlessDanceChatsOff">Make the chat list bounce around</string>
+    <string name="ExteraRoflanWallpapers">Chat wallpapers and themes</string>
+    <string name="ExteraRoflanWallpapersInfo">Backgrounds, colors and chat appearance</string>
+    <string name="ExteraRoflanDanceChats">Dancing chats</string>
+    <string name="ExteraRoflanDanceChatsOn">Tap to stop the dance</string>
+    <string name="ExteraRoflanDanceChatsOff">Make the chat list bounce around</string>
     <string name="RoflanRouletteTitle">Roflan Event Roulette</string>
     <string name="RoflanRouletteInfo">Spin for a random in-app disaster. Effects are local to this client.</string>
     <string name="RoflanRouletteSpin">Spin</string>
