@@ -1097,7 +1097,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                     if (position == appNavigationRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceNavigation), getString(R.string.OEAppearanceNavigationSub), R.drawable.msg_newphone, true);
                     } else if (position == wallpapersRow) {
-                        cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessWallpapers), getString(R.string.ExteraVlessWallpapersInfo), R.drawable.msg_theme, true);
+                        cell.setTextAndValueAndIcon("Обои", "Настройка фона и оформления чатов", R.drawable.msg_theme, true);
                     } else if (position == emojiSetsRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.EmojiSets), getString(NekoConfig.useSystemEmoji.Bool()
                                 ? R.string.OEAppearanceUseSystemEmoji : R.string.OEAppearanceEmojiSetsInfo), R.drawable.msg_emoji_smiles, true);
