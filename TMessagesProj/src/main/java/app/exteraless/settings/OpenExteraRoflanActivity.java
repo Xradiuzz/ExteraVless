@@ -261,7 +261,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                 dialog.getButton(-1).setEnabled(false);
                 dialog.getButton(-1).setText(getString(R.string.RoflanRouletteSpinning));
                 wheel.spinTo(chosen, () -> {
-                    result.setText(getString(R.string.RoflanRouletteResult, EVENT_LABELS[chosen]));
+                    result.setText(getString(R.string.RoflanRouletteResult).replace("%1$s", EVENT_LABELS[chosen]));
                     dialog.getButton(-1).setText(getString(R.string.RoflanRouletteDone));
                     dialog.getButton(-1).setEnabled(true);
                     dialog.getButton(-1).setOnClickListener(done -> {
@@ -342,7 +342,8 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
 
         void spinTo(int index, Runnable finished) {
             spinning = true;
-            float target = 360f * 5f + (360f - ((index * 45f + 22.5f) % 360f));
+            float targetDelta = (360f - ((rotation + index * 45f + 22.5f) % 360f)) % 360f;
+            float target = 360f * 5f + targetDelta;
             ValueAnimator animator = ValueAnimator.ofFloat(rotation, rotation + target);
             animator.setDuration(4800);
             animator.setInterpolator(new DecelerateInterpolator(2.4f));
