@@ -1,4 +1,4 @@
-# ExteraVless
+# ExteraRoflan
 
 Самостоятельно развиваемая модификация Android-клиента Telegram на основе [Exteraless](https://github.com/exteraless/exteraless).
 
@@ -8,9 +8,10 @@
 
 ## Базовые параметры
 
-- Название приложения: **ExteraVless**.
+- Название приложения: **ExteraRoflan**.
 - Android application ID: `com.xradiuzz.sobstvennyclient` (не менять без отдельной необходимости).
 - Основа: Exteraless.
+- Автор форка: **@Xradiuzz**.
 - Лицензия исходной кодовой базы: GPL-3.0; сохранять лицензионные уведомления и атрибуцию.
 - Сборка: ARM64 debug APK через GitHub Actions, без необходимости устанавливать Android Studio на телефон.
 
@@ -26,7 +27,7 @@
 
 ## Сборка APK
 
-Откройте вкладку **Actions**, выберите **ExteraVless — Android APK** и запустите workflow вручную (**Run workflow**). После успешной сборки скачайте артефакт **ExteraVless-ARM64-debug** и распакуйте ZIP.
+Откройте вкладку **Actions**, выберите **ExteraRoflan — Android APK** и запустите workflow вручную (**Run workflow**). После успешной сборки скачайте артефакт **ExteraRoflan-ARM64-debug** и распакуйте ZIP.
 
 Workflow собирает вариант `arm64-v8a` для современных 64-битных Android-устройств. Используются JDK 21, Android SDK/NDK, CMake и Python 3.11.
 
