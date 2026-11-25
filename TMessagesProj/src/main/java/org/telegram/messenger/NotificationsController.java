@@ -5905,6 +5905,8 @@ public class NotificationsController extends BaseController implements Notificat
                     .setOnlyAlertOnce(isSilent || dialogId != lastDialogId || topicId != lastTopicId)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE);
 
+            NotificationStudio.apply(builder, name, text.toString(), avatarBitmap);
+
             try {
                 Intent dismissIntent = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                 dismissIntent.putExtra("messageDate", maxDate);
