@@ -196,7 +196,7 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
             org.telegram.messenger.browser.Browser.openUrl(getParentActivity(),
                     "https://github.com/exteraless/exteraless");
         } else if (position == designerRow) {
-            getMessagesController().openByUserName("the8055u", this, 1);
+            getMessagesController().openByUserName("Xradiuzz", this, 1);
         } else if (position == designStudioRow) {
             getMessagesController().openByUserName("BlueprintDsgn", this, 1);
         }
@@ -256,7 +256,7 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
                                 "GitHub", R.drawable.msg_language, false);
                     } else if (position == designerRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.OpenExteraDesigner),
-                                "@the8055u", R.drawable.msg_theme, true);
+                                "@Xradiuzz", R.drawable.msg_theme, true);
                     } else if (position == designStudioRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.OpenExteraDesignStudio),
                                 "@BlueprintDsgn", R.drawable.msg_groups, false);
