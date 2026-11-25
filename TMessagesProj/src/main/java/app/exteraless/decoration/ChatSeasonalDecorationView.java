@@ -228,7 +228,7 @@ public final class ChatSeasonalDecorationView extends View {
         for (int i = 0; i < uris.length; i++) {
             try (InputStream input = getContext().getContentResolver().openInputStream(Uri.parse(uris[i]))) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
+                options.inSampleSize = 4;
                 customBitmaps[i] = BitmapFactory.decodeStream(input, null, options);
             } catch (Exception ignored) {}
         }

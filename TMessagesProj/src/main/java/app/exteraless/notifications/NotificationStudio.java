@@ -25,6 +25,7 @@ public final class NotificationStudio {
     private static final String KEY_STYLE = "style";
     private static final String KEY_CAPTION = "caption";
     private static final String KEY_ACCENT = "custom_accent";
+    private static final String KEY_CUSTOM_LAYOUT = "custom_layout";
 
     private NotificationStudio() {}
 
@@ -59,6 +60,14 @@ public final class NotificationStudio {
         prefs().edit().putInt(KEY_ACCENT, color).apply();
     }
 
+    public static int getCustomLayout() {
+        return Math.max(0, Math.min(3, prefs().getInt(KEY_CUSTOM_LAYOUT, 1)));
+    }
+
+    public static void setCustomLayout(int layout) {
+        prefs().edit().putInt(KEY_CUSTOM_LAYOUT, Math.max(0, Math.min(3, layout))).apply();
+    }
+
     public static String previewBody(int style) {
         switch (style) {
             case 1: return "Расширенный текст: привет! Посмотри, я отправил тебе несколько фотографий.";
@@ -68,7 +77,7 @@ public final class NotificationStudio {
             case 5: return "Привет!";
             case 6: return "Короткое уведомление без лишних деталей.";
             case 7: return "Акцентный стиль с выбранным цветом.";
-            case 8: return "Мой стиль: собственный акцент и расширенное сообщение.";
+            case 8: return getCustomLayout() == 0 ? "Мой стиль · оригинальный макет" : getCustomLayout() == 2 ? "Мой стиль · список сообщений" : getCustomLayout() == 3 ? "Мой стиль · диалог" : "Мой стиль · крупный текст";
             default: return "Привет! Это пример уведомления в стиле Telegram.";
         }
     }
@@ -138,10 +147,31 @@ public final class NotificationStudio {
                 break;
             case 8:
                 builder.setColor(getCustomAccentColor());
-                builder.setStyle(new NotificationCompat.BigTextStyle()
-                        .setBigContentTitle(title)
-                        .bigText(body == null ? "" : body)
-                        .setSummaryText("ExteraRoflan"));
+                switch (getCustomLayout()) {
+                    case 0:
+                        builder.setStyle(null);
+                        break;
+                    case 2:
+                        builder.setStyle(new NotificationCompat.InboxStyle()
+                                .setBigContentTitle(title)
+                                .addLine(body == null ? "" : body)
+                                .setSummaryText("ExteraRoflan"));
+                        break;
+                    case 3: {
+                        Person sender = new Person.Builder().setName(title == null ? "Telegram" : title).build();
+                        NotificationCompat.MessagingStyle customConversation = new NotificationCompat.MessagingStyle(sender);
+                        customConversation.setConversationTitle(title);
+                        customConversation.addMessage(body == null ? "" : body, System.currentTimeMillis(), sender);
+                        builder.setStyle(customConversation);
+                        break;
+                    }
+                    default:
+                        builder.setStyle(new NotificationCompat.BigTextStyle()
+                                .setBigContentTitle(title)
+                                .bigText(body == null ? "" : body)
+                                .setSummaryText("ExteraRoflan"));
+                        break;
+                }
                 break;
             default:
                 // Keep the exact style selected by Telegram itself.

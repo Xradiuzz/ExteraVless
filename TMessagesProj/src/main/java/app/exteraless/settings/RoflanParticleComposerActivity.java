@@ -67,11 +67,11 @@ public class RoflanParticleComposerActivity extends BaseFragment {
     @Override public void onFragmentDestroy(){if(preview!=null)preview.release();super.onFragmentDestroy();}
 
     private static final class ParticlePreview extends View{
-        private final Paint p=new Paint(Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);private final RectF r=new RectF();private final float[] x=new float[18],y=new float[18],phase=new float[18];private final Bitmap[] bitmaps;private final long start=System.currentTimeMillis();
-        ParticlePreview(Context c){super(c);setLayerType(View.LAYER_TYPE_HARDWARE,null);java.util.Random random=new java.util.Random(73);for(int i=0;i<x.length;i++){x[i]=random.nextFloat();y[i]=random.nextFloat();phase[i]=random.nextFloat()*6.28f;}bitmaps=load(c);}
+        private final Paint p=new Paint(Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);private final RectF r=new RectF();private final float[] x=new float[18],y=new float[18],phase=new float[18];private Bitmap[] bitmaps;private final Context context;private final long start=System.currentTimeMillis();
+        ParticlePreview(Context c){super(c);context=c;setLayerType(View.LAYER_TYPE_HARDWARE,null);java.util.Random random=new java.util.Random(73);for(int i=0;i<x.length;i++){x[i]=random.nextFloat();y[i]=random.nextFloat();phase[i]=random.nextFloat()*6.28f;}bitmaps=load(c);}
         private Bitmap[] load(Context c){String[] uris=ChatDecorationConfig.customParticleUris();Bitmap[] out=new Bitmap[uris.length];for(int i=0;i<uris.length;i++){try(InputStream in=c.getContentResolver().openInputStream(Uri.parse(uris[i]))){BitmapFactory.Options o=new BitmapFactory.Options();o.inSampleSize=4;out[i]=BitmapFactory.decodeStream(in,null,o);}catch(Exception ignored){}}return out;}
-        void reload(){invalidate();}
-        void release(){for(Bitmap b:bitmaps)if(b!=null&&!b.isRecycled())b.recycle();}
+        void reload(){release();bitmaps=load(context);invalidate();}
+        void release(){if(bitmaps!=null)for(Bitmap b:bitmaps)if(b!=null&&!b.isRecycled())b.recycle();bitmaps=new Bitmap[0];}
         @Override protected void onDraw(Canvas c){super.onDraw(c);float w=getWidth(),h=getHeight();p.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));c.drawRoundRect(0,0,w,h,AndroidUtilities.dp(16),AndroidUtilities.dp(16),p);
             p.setColor(0xFF229ED9);c.drawRoundRect(0,0,w,AndroidUtilities.dp(42),AndroidUtilities.dp(16),AndroidUtilities.dp(16),p);p.setColor(Color.WHITE);p.setTextSize(AndroidUtilities.dp(14));p.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);c.drawText("Telegram  ·  предпросмотр",AndroidUtilities.dp(14),AndroidUtilities.dp(26),p);
             int header=ChatDecorationConfig.headerStyle();if(header>0){p.setColor(header==3?0xFF8BDDD5:0xFF2E7D4F);p.setStrokeWidth(AndroidUtilities.dp(2));c.drawLine(0,AndroidUtilities.dp(47),w,AndroidUtilities.dp(47),p);}
