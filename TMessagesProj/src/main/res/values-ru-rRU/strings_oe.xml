@@ -32,7 +32,7 @@
     <string name="AppIconQuack" translatable="false">Quack</string>
     <string name="OpenExteraPreferences">ExteraRoflan</string>
     <string name="OpenExteraDesignSection">Дизайн</string>
-    <string name="OpenExteraDesigner">Иконки и дизайн</string>
+    <string name="OpenExteraDesigner">Автор форка</string>
     <string name="OpenExteraDesignStudio">Студия дизайна</string>
     <string name="OEDownloadEmojiPacks">Загружать наборы эмодзи</string>
     <string name="OEChooseSubtitles">Выбрать субтитры</string>
@@ -67,11 +67,11 @@
     <string name="OEProfileJoinDateUnknown">Дата вступления недоступна</string>
     <string name="AppIconsSelect">Выбрать</string>
     <string name="AppIconsKeep">Оставить эту</string>
-    <string name="ExteraVlessWallpapers">Обои и темы чатов</string>
-    <string name="ExteraVlessWallpapersInfo">Фоны, цвета и оформление переписки</string>
-    <string name="ExteraVlessDanceChats">Танцующие чаты</string>
-    <string name="ExteraVlessDanceChatsOn">Нажми, чтобы остановить танец</string>
-    <string name="ExteraVlessDanceChatsOff">Заставить список чатов подпрыгивать</string>
+    <string name="ExteraRoflanWallpapers">Обои и темы чатов</string>
+    <string name="ExteraRoflanWallpapersInfo">Фоны, цвета и оформление переписки</string>
+    <string name="ExteraRoflanDanceChats">Танцующие чаты</string>
+    <string name="ExteraRoflanDanceChatsOn">Нажми, чтобы остановить танец</string>
+    <string name="ExteraRoflanDanceChatsOff">Заставить список чатов подпрыгивать</string>
     <string name="RoflanRouletteTitle">Рулетка событий</string>
     <string name="RoflanRouletteInfo">Крути рулетку и получай случайное бедствие внутри клиента. Эффекты локальные.</string>
     <string name="RoflanRouletteSpin">Крутить</string>
