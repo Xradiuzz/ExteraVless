@@ -91,7 +91,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
 
     @Override
     public int getSearchIcon() {
-        return R.drawable.ic_roflan_chicken;
+        return R.drawable.ic_roflan_chicken_outline;
     }
 
     @Override
