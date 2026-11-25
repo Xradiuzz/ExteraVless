@@ -13933,6 +13933,28 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_NIGHT));
                         });
                     });
+            io.add(
+                    isAmoledThemeActive() ? R.drawable.menu_day_mode_24 : R.drawable.menu_night_mode_24,
+                    isAmoledThemeActive() ? "Отключить чёрный AMOLED" : "Чёрный AMOLED",
+                    () -> {
+                        if (switchingTheme) return;
+                        SharedPreferences blackPrefs = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", Activity.MODE_PRIVATE);
+                        Theme.ThemeInfo target;
+                        boolean toDark = true;
+                        if (isAmoledThemeActive()) {
+                            String previous = blackPrefs.getString("exteraless_previous_dark_theme", "Dark Blue");
+                            target = Theme.getTheme(previous);
+                            if (target == null || !target.isDark()) target = Theme.getTheme("Dark Blue");
+                        } else {
+                            Theme.ThemeInfo current = Theme.getActiveTheme();
+                            if (current != null && current.isDark()) {
+                                blackPrefs.edit().putString("exteraless_previous_dark_theme", current.getKey()).apply();
+                            }
+                            target = Theme.getTheme("AMOLED");
+                        }
+                        if (target != null) switchTheme(target, toDark);
+                    });
+            io.addGap();
             io.addGap();
             // Пользователь настроил свой порядок пунктов (dialogs-03) — берём его вместо
             // захардкоженного списка. Пока OEAppearanceMainMenuLayout пуст, меню в точности
@@ -14611,6 +14633,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         scrollToTop(true, true);
+    }
+
+    private boolean isAmoledThemeActive() {
+        Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+        return activeTheme != null && "AMOLED".equals(activeTheme.getKey());
     }
 
     private void switchTheme(Theme.ThemeInfo themeInfo, boolean toDark) {
