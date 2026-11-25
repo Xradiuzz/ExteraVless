@@ -8,14 +8,27 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
 
 public class LauncherIconController {
-    public static void tryFixLauncherIconIfNeeded() {
-        for (LauncherIcon icon : LauncherIcon.values()) {
-            if (isEnabled(icon)) {
-                return;
-            }
-        }
+    private static final String PREFS = "launcher_icon_controller";
+    private static final String SELECTED_ICON = "selected_icon";
 
-        setIcon(LauncherIcon.EXTERALESS);
+    /**
+     * PackageManager state is an IPC. The previous implementation queried every
+     * launcher alias on every cold start. Remember the selected alias and validate
+     * only that one; repair it if Android reset the component state.
+     */
+    public static void tryFixLauncherIconIfNeeded() {
+        Context ctx = ApplicationLoader.applicationContext;
+        android.content.SharedPreferences prefs = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        String selected = prefs.getString(SELECTED_ICON, LauncherIcon.EXTERALESS.name());
+        LauncherIcon icon;
+        try {
+            icon = LauncherIcon.valueOf(selected);
+        } catch (IllegalArgumentException ignored) {
+            icon = LauncherIcon.EXTERALESS;
+        }
+        if (!isEnabled(icon)) {
+            setIcon(icon);
+        }
     }
 
     public static boolean isEnabled(LauncherIcon icon) {
@@ -35,6 +48,9 @@ public class LauncherIconController {
             pm.setComponentEnabledSetting(i.getComponentName(ctx), i == icon ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
+        ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+                .putString(SELECTED_ICON, icon.name())
+                .apply();
     }
 
     public enum LauncherIcon {
