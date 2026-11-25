@@ -267,8 +267,14 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                     spinButton.setEnabled(true);
                     spinButton.setOnClickListener(done -> {
                         dialog.dismiss();
-                        AndroidUtilities.runOnUIThread(() -> applyRouletteEvent(chosen), 450);
+                        applyRouletteEvent(chosen);
                     });
+                    AndroidUtilities.runOnUIThread(() -> {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                            applyRouletteEvent(chosen);
+                        }
+                    }, 1100);
                 });
             });
         });
