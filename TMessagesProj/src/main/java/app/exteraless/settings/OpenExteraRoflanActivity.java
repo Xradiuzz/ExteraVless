@@ -255,16 +255,17 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                 .setPositiveButton(getString(R.string.RoflanRouletteSpin), null)
                 .create();
         dialog.setOnShowListener(d -> {
-            dialog.getButton(-1).setOnClickListener(v -> {
+            TextView spinButton = (TextView) dialog.getButton(-1);
+            spinButton.setOnClickListener(v -> {
                 if (wheel.isSpinning()) return;
                 int chosen = (int) (Math.random() * EVENT_LABELS.length);
-                dialog.getButton(-1).setEnabled(false);
-                dialog.getButton(-1).setText(getString(R.string.RoflanRouletteSpinning));
+                spinButton.setEnabled(false);
+                spinButton.setText(getString(R.string.RoflanRouletteSpinning));
                 wheel.spinTo(chosen, () -> {
                     result.setText(getString(R.string.RoflanRouletteResult).replace("%1$s", EVENT_LABELS[chosen]));
-                    dialog.getButton(-1).setText(getString(R.string.RoflanRouletteDone));
-                    dialog.getButton(-1).setEnabled(true);
-                    dialog.getButton(-1).setOnClickListener(done -> {
+                    spinButton.setText(getString(R.string.RoflanRouletteDone));
+                    spinButton.setEnabled(true);
+                    spinButton.setOnClickListener(done -> {
                         dialog.dismiss();
                         AndroidUtilities.runOnUIThread(() -> applyRouletteEvent(chosen), 450);
                     });
