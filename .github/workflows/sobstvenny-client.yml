@@ -54,11 +54,6 @@ jobs:
             ndk;27.2.12479018
             cmake;3.31.6
 
-      - name: Install Android 37 preview platform
-        shell: bash
-        run: |
-          sdkmanager --channel=3 "platforms;android-37"
-
       - name: Configure local.properties
         shell: bash
         run: |
