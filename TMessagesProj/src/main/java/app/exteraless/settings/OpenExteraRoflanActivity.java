@@ -60,6 +60,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     private int notificationStyleRow;
     private int notificationCaptionRow;
     private int notificationSoundRow;
+    private int featureHubRow;
 
     // Первые шесть секторов — благоприятные, остальные — испытания.
     private static final String[] EVENT_LABELS = {
@@ -85,6 +86,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         notificationStyleRow = addRow("roflanNotificationStyle");
         notificationCaptionRow = addRow("roflanNotificationCaption");
         notificationSoundRow = addRow("roflanNotificationSound");
+        featureHubRow = addRow("roflanFeatureHub");
         dividerRow = addRow();
     }
 
@@ -141,6 +143,8 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             showNotificationCaptionDialog();
         } else if (position == notificationSoundRow) {
             presentFragment(new NotificationsSettingsActivity());
+        } else if (position == featureHubRow) {
+            presentFragment(new RoflanFeatureHubActivity());
         }
     }
 
