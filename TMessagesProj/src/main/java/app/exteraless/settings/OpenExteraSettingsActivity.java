@@ -35,6 +35,7 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
     private int categoriesHeaderRow;
     private int generalRow;
     private int appearanceRow;
+    private int roflanRow;
     private int chatsRow;
     private int pluginsRow;
     private int otherRow;
@@ -59,6 +60,7 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
         categoriesHeaderRow = addRow("categoriesHeader");
         generalRow = addRow("general");
         appearanceRow = addRow("appearance");
+        roflanRow = addRow("roflan");
         chatsRow = addRow("chats");
         pluginsRow = addRow("plugins");
         otherRow = addRow("other");
@@ -184,6 +186,8 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
             presentFragment(new OpenExteraGeneralActivity());
         } else if (position == appearanceRow) {
             presentFragment(new OpenExteraAppearanceActivity());
+        } else if (position == roflanRow) {
+            presentFragment(new OpenExteraRoflanActivity());
         } else if (position == chatsRow) {
             presentFragment(new OpenExteraChatsActivity());
         } else if (position == pluginsRow) {
@@ -242,6 +246,8 @@ public class OpenExteraSettingsActivity extends BaseNekoSettingsActivity {
                         cell.setTextAndIcon(getString(R.string.OpenExteraGeneral), R.drawable.msg_media, true);
                     } else if (position == appearanceRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraAppearance), R.drawable.msg_theme, true);
+                    } else if (position == roflanRow) {
+                        cell.setTextAndIcon(getString(R.string.RoflanCategoryTitle), R.drawable.ic_roflan_chicken, true);
                     } else if (position == chatsRow) {
                         cell.setTextAndIcon(getString(R.string.OpenExteraChats), R.drawable.msg_discussion, true);
                     } else if (position == pluginsRow) {
