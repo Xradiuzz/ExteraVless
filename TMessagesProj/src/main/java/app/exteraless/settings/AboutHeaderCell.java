@@ -36,7 +36,7 @@ import org.telegram.ui.Components.LayoutHelper;
 public class AboutHeaderCell extends LinearLayout {
 
     /** Цвет подложки иконки приложения, как R.color.ic_background в exteraGram. */
-    public static final int LOGO_BACKGROUND = 0xFFE83030;
+    public static final int LOGO_BACKGROUND = 0xFF4655D8;
 
     /** Путь формы логотипа. Считается один раз, сбрасывается при смене режима. */
     private Path shapePath;
@@ -65,7 +65,7 @@ public class AboutHeaderCell extends LinearLayout {
         };
         logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
         logo.setBackgroundColor(LOGO_BACKGROUND);
-        logo.setImageResource(R.drawable.exteraless_icon);
+        logo.setImageResource(R.drawable.sobstvenny_client_mark);
         logo.setOnLongClickListener(v -> {
             IconPacksConfig.toggleSystemIconShape();
             IconShapeHelper.invalidate();
