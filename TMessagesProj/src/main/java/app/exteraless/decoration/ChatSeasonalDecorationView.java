@@ -11,9 +11,11 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 
 import java.util.Random;
+import java.lang.ref.WeakReference;
 
 /** Lightweight, touch-transparent seasonal overlay for the chat list. */
 public final class ChatSeasonalDecorationView extends View {
+    private static WeakReference<ChatSeasonalDecorationView> current;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Random random = new Random(271828);
     private final float[] x = new float[60], y = new float[60], speed = new float[60], size = new float[60], phase = new float[60];
@@ -29,6 +31,7 @@ public final class ChatSeasonalDecorationView extends View {
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
         mode = ChatDecorationConfig.mode();
         intensity = ChatDecorationConfig.intensity();
+        current = new WeakReference<>(this);
         start = System.currentTimeMillis();
         int[] sakura = {0xD9F48FB1, 0xD9F8BBD0, 0xD9EC789A, 0xD9FFE0E8};
         int[] confetti = {0xB9FF5252, 0xB9FFD740, 0xB940C4FF, 0xB966BB6A, 0xB9AB47BC};
@@ -49,8 +52,18 @@ public final class ChatSeasonalDecorationView extends View {
     }
 
     @Override protected void onDetachedFromWindow() {
-        removeCallbacks(null);
         super.onDetachedFromWindow();
+    }
+
+    public static void refreshAll() {
+        ChatSeasonalDecorationView view = current == null ? null : current.get();
+        if (view != null) {
+            view.mode = ChatDecorationConfig.mode();
+            view.intensity = ChatDecorationConfig.intensity();
+            view.start = System.currentTimeMillis();
+            view.invalidate();
+            if (view.mode != ChatDecorationConfig.OFF && view.isAttachedToWindow()) view.postInvalidateOnAnimation();
+        }
     }
 
     @Override protected void onDraw(Canvas canvas) {
@@ -77,7 +90,7 @@ public final class ChatSeasonalDecorationView extends View {
                 canvas.restore();
             }
         }
-        postInvalidateDelayed(34);
+        if (getVisibility() == VISIBLE && isAttachedToWindow()) postInvalidateDelayed(34);
     }
 
     private void drawChristmas(Canvas canvas, float width) {
