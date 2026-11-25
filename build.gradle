@@ -29,7 +29,7 @@ subprojects {
 
                 lint {
                     checkReleaseBuilds = false
-                    disable 'MissingTranslation', 'MissingTranslation', 'BlockedPrivateApi'
+                    disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
                 }
 
                 compileOptions {
