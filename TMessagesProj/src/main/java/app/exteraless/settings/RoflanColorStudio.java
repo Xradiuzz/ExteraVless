@@ -24,6 +24,11 @@ public class RoflanColorStudio extends UniversalFragment {
             0xFFFFE0B2, 0xFFC5E1A5, 0xFFB2EBF2, 0xFFFFF9C4,
             0xFFCE93D8, 0xFF80CBC4, 0xFFFFAB91, 0xFF90CAF9
     };
+    private static final int[] ACCENTS = {
+            0xFF0277BD, 0xFFC2185B, 0xFF5E35B1, 0xFF00796B,
+            0xFFEF6C00, 0xFF558B2F, 0xFF00838F, 0xFFF9A825,
+            0xFF8E24AA, 0xFF00695C, 0xFFD84315, 0xFF1565C0
+    };
     private static final String[] NAMES = {
             "Ледяная голубая", "Сакура", "Лаванда", "Мята",
             "Персик", "Фисташка", "Аква", "Ваниль",
@@ -62,7 +67,7 @@ public class RoflanColorStudio extends UniversalFragment {
         Activity a = host();
         if (a == null) return;
         new AlertDialog.Builder(a).setTitle("Цветные темы")
-                .setItems(NAMES, (d, which) -> apply(COLORS[which]))
+                .setItems(NAMES, (d, which) -> applyTheme(ACCENTS[which], COLORS[which]))
                 .setNegativeButton("Отмена", null).show();
     }
 
@@ -128,6 +133,16 @@ public class RoflanColorStudio extends UniversalFragment {
         Theme.setColor(Theme.key_chat_wallpaper, color, false);
         saveTheme();
         Toast.makeText(host(), "Цвет фона чатов обновлён", Toast.LENGTH_SHORT).show();
+    }
+
+    private void applyTheme(int accent, int background) {
+        Theme.setColor(Theme.key_actionBarDefault, accent, false);
+        Theme.setColor(Theme.key_actionBarDefaultTitle, Color.WHITE, false);
+        Theme.setColor(Theme.key_actionBarDefaultIcon, Color.WHITE, false);
+        Theme.setColor(Theme.key_actionBarDefaultSelector, 0x33FFFFFF, false);
+        Theme.setColor(Theme.key_chat_wallpaper, background, false);
+        saveTheme();
+        Toast.makeText(host(), "Цветная тема применена", Toast.LENGTH_SHORT).show();
     }
 
     private void saveTheme() {
