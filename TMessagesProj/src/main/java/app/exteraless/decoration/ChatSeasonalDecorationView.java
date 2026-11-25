@@ -108,6 +108,9 @@ public final class ChatSeasonalDecorationView extends View {
         }
         canvas.drawPath(garland, paint);
         paint.setStyle(Paint.Style.FILL);
+        // Two small hanging fir trees frame the chat title without covering it.
+        drawHangingTree(canvas, width * 0.18f, top + AndroidUtilities.dp(5));
+        drawHangingTree(canvas, width * 0.82f, top + AndroidUtilities.dp(5));
         int[] baubles = {0xFFFF5252, 0xFFFFD740, 0xFF40C4FF, 0xFFE040FB, 0xFF69F0AE};
         for (int i = 0; i < 11; i++) {
             float px = width * (i + 0.5f) / 11f;
@@ -127,5 +130,34 @@ public final class ChatSeasonalDecorationView extends View {
             canvas.drawLine(px, top + AndroidUtilities.dp(2), px + (i % 2 == 0 ? -AndroidUtilities.dp(7) : AndroidUtilities.dp(7)), top + AndroidUtilities.dp(13), paint);
         }
         paint.setStyle(Paint.Style.FILL);
+    }
+
+    private void drawHangingTree(Canvas canvas, float cx, float top) {
+        paint.setColor(0xD9E8D9A8);
+        paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
+        canvas.drawLine(cx, top - AndroidUtilities.dp(8), cx, top + AndroidUtilities.dp(1), paint);
+        paint.setColor(0xFF2E7D4F);
+        Path tree = new Path();
+        tree.moveTo(cx, top);
+        tree.lineTo(cx - AndroidUtilities.dp(17), top + AndroidUtilities.dp(28));
+        tree.lineTo(cx + AndroidUtilities.dp(17), top + AndroidUtilities.dp(28));
+        tree.close();
+        canvas.drawPath(tree, paint);
+        paint.setColor(0xFF1B5E3A);
+        Path lower = new Path();
+        lower.moveTo(cx, top + AndroidUtilities.dp(12));
+        lower.lineTo(cx - AndroidUtilities.dp(21), top + AndroidUtilities.dp(39));
+        lower.lineTo(cx + AndroidUtilities.dp(21), top + AndroidUtilities.dp(39));
+        lower.close();
+        canvas.drawPath(lower, paint);
+        int[] ornaments = {0xFFFF5252, 0xFFFFD740, 0xFF40C4FF, 0xFFE040FB};
+        for (int i = 0; i < 4; i++) {
+            float ox = cx + (i % 2 == 0 ? -1 : 1) * AndroidUtilities.dp(7 + (i % 3) * 3);
+            float oy = top + AndroidUtilities.dp(17 + (i / 2) * 13);
+            paint.setColor(ornaments[i]);
+            canvas.drawCircle(ox, oy, AndroidUtilities.dp(3), paint);
+        }
+        paint.setColor(0xFFFFD740);
+        canvas.drawCircle(cx, top + AndroidUtilities.dp(1), AndroidUtilities.dp(3), paint);
     }
 }
