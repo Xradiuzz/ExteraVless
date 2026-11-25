@@ -50,6 +50,7 @@ jobs:
         uses: android-actions/setup-android@v4
         with:
           packages: >-
+            platforms;android-37.0
             build-tools;36.0.0
             ndk;27.2.12479018
             cmake;3.31.6
