@@ -54,6 +54,10 @@ public class RoflanColorStudio extends UniversalFragment {
         else if (item.id == PRESETS) showPresets();
         else if (item.id == RESET) {
             Theme.setColor(Theme.key_chat_wallpaper, 0, true);
+            Theme.setColor(Theme.key_actionBarDefault, 0, true);
+            Theme.setColor(Theme.key_actionBarDefaultTitle, 0, true);
+            Theme.setColor(Theme.key_actionBarDefaultIcon, 0, true);
+            Theme.setColor(Theme.key_actionBarDefaultSelector, 0, true);
             saveTheme();
             Toast.makeText(host(), "Цвет фона восстановлен", Toast.LENGTH_SHORT).show();
         }
