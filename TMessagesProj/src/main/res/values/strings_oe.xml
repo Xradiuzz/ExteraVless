@@ -116,4 +116,13 @@
     <string name="RoflanLegacy2021">Telegram 2021 — compact</string>
     <string name="RoflanLegacyModern">Modern ExteraRoflan</string>
     <string name="RoflanLegacyRestart">The interface preset is applied. The app will restart.</string>
+    <string name="RoflanCategoryTitle">Roflan</string>
+    <string name="RoflanSectionHeader">Roflan features</string>
+    <string name="RoflanDanceEnabled">Enabled — tap to stop</string>
+    <string name="RoflanDanceDisabled">Tap to make chats dance</string>
+    <string name="RoflanRouletteReady">Spin the wheel to trigger a random event</string>
+    <string name="RoflanRouletteSpinning">Spinning…</string>
+    <string name="RoflanRouletteDone">Done</string>
+    <string name="RoflanRouletteResult">Event: %1$s</string>
+    <string name="RoflanLegacyApplied">Visual preset applied</string>
 </resources>
