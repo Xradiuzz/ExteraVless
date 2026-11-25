@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.collection.LongSparseArray;
 
 import org.telegram.messenger.AndroidUtilities;
+import app.exteraless.fun.LizardPetOverlay;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.AuthTokensHelper;
 import org.telegram.messenger.BuildVars;
@@ -105,6 +106,7 @@ public class DebugSettingsActivity extends UniversalFragment {
     private static final int ID_WIDGET_STATIC_LAYERS = 44;
     private static final int ID_FORGET_HINTS = 45;
     private static final int ID_COMPACT_MODE = 46;
+    private static final int ID_LIZARD_PET = 47;
 
     @Override
     protected boolean useSimpleActionBar() {
@@ -180,6 +182,10 @@ public class DebugSettingsActivity extends UniversalFragment {
             items.add(UItem.asCheck(ID_FLOATING_DEBUG, getString(R.string.FloatingDebugEnable)).setChecked(SharedConfig.isFloatingDebugActive));
         }
         items.add(UItem.asCheck(ID_EXPERIMENTAL, "Experimental settings").setChecked(SharedSettings.experimentalSettingsAllowed.get()));
+        items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader("ExteraRoflan pets"));
+        items.add(UItem.asButton(ID_LIZARD_PET, LizardPetOverlay.isActive() ? "Убрать ящерицу" : "Запустить милую ящерицу"));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader("Interface"));
@@ -448,6 +454,10 @@ public class DebugSettingsActivity extends UniversalFragment {
             case ID_WIDGET_STATIC_LAYERS:
                 // Frames drawn from now on follow it; one already in a layer keeps it until the next frame.
                 SharedConfig.toggleWidgetStaticLayers();
+                break;
+            case ID_LIZARD_PET:
+                LizardPetOverlay.toggle(getParentActivity());
+                listView.adapter.update(true);
                 break;
             default:
                 return;
