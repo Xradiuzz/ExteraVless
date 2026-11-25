@@ -21,13 +21,15 @@ subprojects {
     afterEvaluate {
         if (plugins.hasPlugin("com.android.application")) {
             android {
-                compileSdk = 37
+                // API 37 is not yet available from the configured Android SDK
+                // repository in GitHub Actions; API 36 is sufficient for this build.
+                compileSdk = 36
                 buildToolsVersion = "36.0.0"
                 ndkVersion = "27.2.12479018"
 
                 lint {
                     checkReleaseBuilds = false
-                    disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
+                    disable 'MissingTranslation', 'MissingTranslation', 'BlockedPrivateApi'
                 }
 
                 compileOptions {
