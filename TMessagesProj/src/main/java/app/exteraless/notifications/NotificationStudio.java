@@ -8,6 +8,7 @@ import androidx.core.app.Person;
 
 import org.telegram.messenger.ApplicationLoader;
 import app.exteraless.roflan.RoflanSuite;
+import app.exteraless.roflan.RoflanExtraTools;
 
 import java.util.List;
 
@@ -48,12 +49,14 @@ public final class NotificationStudio {
 
     public static void apply(NotificationCompat.Builder builder, String title, String body, Bitmap avatar) {
         if (builder == null) return;
+        RoflanExtraTools.record(title, body);
         int automation = RoflanSuite.matchRule(body);
         if (automation == 0) builder.setColor(0xFF36A878).setPriority(NotificationCompat.PRIORITY_HIGH);
         else if (automation == 1) builder.setSilent(true);
         else if (automation == 2) builder.setPriority(NotificationCompat.PRIORITY_LOW);
         String caption = getCaption();
         if (!caption.isEmpty()) builder.setSubText(caption);
+        else if (RoflanExtraTools.looksSuspicious(body)) builder.setSubText("⚠️ Проверь ссылку перед открытием");
         else if (RoflanSuite.inboxEnabled()) {
             String[] categories = {"Важное", "Требует ответа", "Шум", "Позже"};
             builder.setSubText("Smart Inbox · " + categories[RoflanSuite.classify(body, false, true)]);
