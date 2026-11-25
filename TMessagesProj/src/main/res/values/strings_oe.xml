@@ -94,4 +94,6 @@
     <string name="OEProfileJoinedChannel">You subscribed to **%1$s** on %2$s</string>
     <string name="OEProfileChatCreated">**%1$s** was created on %2$s</string>
     <string name="OEProfileJoinDateUnknown">Join date is unavailable</string>
+    <string name="ExteraVlessWallpapers">Chat wallpapers and themes</string>
+    <string name="ExteraVlessWallpapersInfo">Backgrounds, colors and chat appearance</string>
 </resources>
