@@ -180,7 +180,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                 cell.setTextAndValueAndIcon(getString(R.string.RoflanLegacyTitle),
                         getString(R.string.RoflanLegacyInfo), R.drawable.msg_theme, true);
             } else if (position == danceRow) {
-                cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessDanceChats),
+                cell.setTextAndValueAndIcon(getString(R.string.ExteraRoflanDanceChats),
                         ChatDanceMode.isEnabled() ? getString(R.string.RoflanDanceEnabled) : getString(R.string.RoflanDanceDisabled),
                         R.drawable.msg_discussion, true);
             } else if (position == appIconsRow) {
