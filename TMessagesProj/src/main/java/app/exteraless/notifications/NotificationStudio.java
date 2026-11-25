@@ -14,14 +14,17 @@ import java.util.List;
 
 /** User-facing notification presentation preferences. Sound routing remains Telegram-native. */
 public final class NotificationStudio {
+    public static final String DEFAULT_CAPTION = "Здесь могла быть ваша реклама";
     public static final String[] STYLE_NAMES = {
             "Оригинальный Telegram", "Крупный текст", "Список сообщений",
-            "Диалог", "Карточка с аватаром", "Компактный"
+            "Диалог", "Карточка с аватаром", "Компактный",
+            "Минималистичный", "Акцентный", "Мой стиль"
     };
 
     private static final String PREFS = "exteraless_notification_studio";
     private static final String KEY_STYLE = "style";
     private static final String KEY_CAPTION = "caption";
+    private static final String KEY_ACCENT = "custom_accent";
 
     private NotificationStudio() {}
 
@@ -38,13 +41,36 @@ public final class NotificationStudio {
     }
 
     public static String getCaption() {
-        return prefs().getString(KEY_CAPTION, "");
+        return prefs().getString(KEY_CAPTION, DEFAULT_CAPTION);
     }
 
     public static void setCaption(String caption) {
-        String value = caption == null ? "" : caption.trim();
+        String value = caption == null ? DEFAULT_CAPTION : caption.trim();
+        if (value.isEmpty()) value = DEFAULT_CAPTION;
         if (value.length() > 64) value = value.substring(0, 64);
         prefs().edit().putString(KEY_CAPTION, value).apply();
+    }
+
+    public static int getCustomAccentColor() {
+        return prefs().getInt(KEY_ACCENT, 0xFFFFFFFF);
+    }
+
+    public static void setCustomAccentColor(int color) {
+        prefs().edit().putInt(KEY_ACCENT, color).apply();
+    }
+
+    public static String previewBody(int style) {
+        switch (style) {
+            case 1: return "Расширенный текст: привет! Посмотри, я отправил тебе несколько фотографий.";
+            case 2: return "• Привет!  • Как дела?  • Увидимся вечером?";
+            case 3: return "Алексей: Привет! Как насчёт встретиться сегодня?";
+            case 4: return "Карточка с аватаром и расширенным содержимым сообщения";
+            case 5: return "Привет!";
+            case 6: return "Короткое уведомление без лишних деталей.";
+            case 7: return "Акцентный стиль с выбранным цветом.";
+            case 8: return "Мой стиль: собственный акцент и расширенное сообщение.";
+            default: return "Привет! Это пример уведомления в стиле Telegram.";
+        }
     }
 
     public static void apply(NotificationCompat.Builder builder, String title, String body, Bitmap avatar) {
@@ -96,6 +122,26 @@ public final class NotificationStudio {
                 break;
             case 5:
                 builder.setStyle(null);
+                builder.setColor(0xFFFFFFFF);
+                break;
+            case 6:
+                builder.setStyle(new NotificationCompat.BigTextStyle()
+                        .setBigContentTitle(title)
+                        .bigText(body == null ? "" : body)
+                        .setSummaryText("Telegram"));
+                break;
+            case 7:
+                builder.setColor(0xFFFFFFFF);
+                builder.setStyle(new NotificationCompat.BigTextStyle()
+                        .setBigContentTitle(title)
+                        .bigText(body == null ? "" : body));
+                break;
+            case 8:
+                builder.setColor(getCustomAccentColor());
+                builder.setStyle(new NotificationCompat.BigTextStyle()
+                        .setBigContentTitle(title)
+                        .bigText(body == null ? "" : body)
+                        .setSummaryText("ExteraRoflan"));
                 break;
             default:
                 // Keep the exact style selected by Telegram itself.

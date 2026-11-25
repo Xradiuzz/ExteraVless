@@ -48,6 +48,9 @@ public final class AppIcons {
         DESCRIPTIONS.put("PREMIUM", R.string.AppIconInfoPremium);
         DESCRIPTIONS.put("TURBO", R.string.AppIconInfoTurbo);
         DESCRIPTIONS.put("NOX", R.string.AppIconInfoNox);
+        DESCRIPTIONS.put("ROFLAN_BLUE", R.string.AppIconRoflanBlue);
+        DESCRIPTIONS.put("ROFLAN_DARK", R.string.AppIconRoflanDark);
+        DESCRIPTIONS.put("ROFLAN_AURORA", R.string.AppIconRoflanAurora);
     }
 
     private AppIcons() {

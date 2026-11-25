@@ -21,14 +21,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class RoflanFeatureHubActivity extends UniversalFragment {
- private static final int AUTO=1,INBOX=2,PROFILE=3,NETWORK=4,AI=5,UNIVERSE=6,TOOLS=7;
+ private static final int AUTO=1,INBOX=2,PROFILE=3,NETWORK=4,AI=5,UNIVERSE=6,TOOLS=7,ICON=8,NOTIFY=9,DANCE=10,DECOR=11;
  @Override protected CharSequence getTitle(){return "ExteraRoflan Lab";}
  @Override protected void fillItems(ArrayList<UItem> a,UniversalAdapter adapter){
   a.add(UItem.asHeader("Automation"));a.add(UItem.asButton(AUTO,"Roflan Automator · "+RoflanSuite.rules().length()+" rules"));a.add(UItem.asButton(INBOX,"Smart Inbox · "+(RoflanSuite.inboxEnabled()?"ON":"OFF")));a.add(UItem.asShadow(null));
   a.add(UItem.asHeader("Personalization"));a.add(UItem.asButton(PROFILE,"Chat Profiles"));a.add(UItem.asButton(NETWORK,"Network Lab"));a.add(UItem.asShadow(null));
   a.add(UItem.asHeader("Intelligence and fun"));a.add(UItem.asButton(AI,"Roflan AI"));a.add(UItem.asButton(UNIVERSE,"Roflan Universe · "+RoflanSuite.xp()+" XP"));a.add(UItem.asButton(TOOLS,"ExteraRoflan Tools · приватность, история, бэкап"));a.add(UItem.asShadow(null));
+  a.add(UItem.asHeader("Creator Studio"));a.add(UItem.asButton(ICON,"Icon Composer · свои ярлыки"));a.add(UItem.asButton(NOTIFY,"Notification Studio · стили и предпросмотр"));a.add(UItem.asButton(DANCE,"Chat Motion Studio · танцующие чаты"));a.add(UItem.asButton(DECOR,"Particle Studio · шапки и эффекты"));a.add(UItem.asShadow(null));
  }
- @Override protected void onClick(UItem item,View view,int position,float x,float y){switch(item.id){case AUTO:auto();break;case INBOX:inbox();break;case PROFILE:profile();break;case NETWORK:network();break;case AI:ai();break;case UNIVERSE:universe();break;case TOOLS:presentFragment(new RoflanUtilityPanel());break;}}
+ @Override protected void onClick(UItem item,View view,int position,float x,float y){switch(item.id){case AUTO:auto();break;case INBOX:inbox();break;case PROFILE:profile();break;case NETWORK:network();break;case AI:ai();break;case UNIVERSE:universe();break;case TOOLS:presentFragment(new RoflanUtilityPanel());break;case ICON:presentFragment(new app.exteraless.appicons.RoflanIconComposerActivity());break;case NOTIFY:presentFragment(new RoflanNotificationStudioActivity());break;case DANCE:presentFragment(new RoflanDanceStudioActivity());break;case DECOR:presentFragment(new RoflanDecorationPanel());break;}}
  @Override protected boolean onLongClick(UItem item,View view,int position,float x,float y){return false;}
  private Activity host(){return getParentActivity();}
  private void refresh(){if(listView!=null)listView.adapter.update(true);}

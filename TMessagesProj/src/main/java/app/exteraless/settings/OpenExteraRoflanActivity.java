@@ -32,7 +32,6 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.ThemeActivity;
-import org.telegram.ui.NotificationsSettingsActivity;
 
 import app.exteraless.appearance.AppearanceConfig;
 import app.exteraless.fun.ChatDanceMode;
@@ -59,7 +58,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     private int dividerRow;
     private int notificationStyleRow;
     private int notificationCaptionRow;
-    private int notificationSoundRow;
+    private int iconComposerRow;
     private int featureHubRow;
     private int colorStudioRow;
     private int decorationRow;
@@ -83,11 +82,11 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         legacyRow = addRow("roflanLegacy");
         danceRow = addRow("roflanDance");
         appIconsRow = addRow("roflanAppIcons");
+        iconComposerRow = addRow("roflanIconComposer");
         iconPacksRow = addRow("roflanIconPacks");
         rouletteRow = addRow("roflanRoulette");
         notificationStyleRow = addRow("roflanNotificationStyle");
         notificationCaptionRow = addRow("roflanNotificationCaption");
-        notificationSoundRow = addRow("roflanNotificationSound");
         featureHubRow = addRow("roflanFeatureHub");
         colorStudioRow = addRow("roflanColorStudio");
         decorationRow = addRow("roflanDecorations");
@@ -129,24 +128,19 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         if (position == legacyRow) {
             presentFragment(new LegacyUiSettingsPanel());
         } else if (position == danceRow) {
-            boolean enabled = !ChatDanceMode.isEnabled();
-            ChatDanceMode.setEnabled(enabled);
-            Toast.makeText(getParentActivity(), enabled
-                    ? getString(R.string.RoflanDanceEnabled)
-                    : getString(R.string.RoflanDanceDisabled), Toast.LENGTH_SHORT).show();
-            finishFragment();
+            presentFragment(new RoflanDanceStudioActivity());
         } else if (position == appIconsRow) {
             presentFragment(new app.exteraless.appicons.AppIconsActivity());
+        } else if (position == iconComposerRow) {
+            presentFragment(new app.exteraless.appicons.RoflanIconComposerActivity());
         } else if (position == iconPacksRow) {
             presentFragment(new IconPacksActivity());
         } else if (position == rouletteRow) {
             showAnimatedRoulette();
         } else if (position == notificationStyleRow) {
-            showNotificationStyleDialog();
+            presentFragment(new RoflanNotificationStudioActivity());
         } else if (position == notificationCaptionRow) {
             showNotificationCaptionDialog();
-        } else if (position == notificationSoundRow) {
-            presentFragment(new NotificationsSettingsActivity());
         } else if (position == featureHubRow) {
             presentFragment(new RoflanFeatureHubActivity());
         } else if (position == colorStudioRow) {
@@ -194,6 +188,9 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             } else if (position == appIconsRow) {
                 cell.setTextAndValueAndIcon(getString(R.string.RoflanAppIconsTitle),
                         getString(R.string.RoflanAppIconsInfo), R.drawable.msg_theme, true);
+            } else if (position == iconComposerRow) {
+                cell.setTextAndValueAndIcon("Конструктор иконок",
+                        "Слои, фон и собственная фотография для ярлыка", R.drawable.msg_theme, true);
             } else if (position == iconPacksRow) {
                 cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceIconPacks),
                         getString(R.string.OEAppearanceIconPacksInfo), R.drawable.msg_sticker, true);
@@ -206,11 +203,8 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                         NotificationStudio.STYLE_NAMES[NotificationStudio.getStyle()], R.drawable.msg_notifications, true);
             } else if (position == notificationCaptionRow) {
                 String caption = NotificationStudio.getCaption();
-                cell.setTextAndValueAndIcon("Своя подпись",
-                        caption.isEmpty() ? "Не задана" : caption, R.drawable.msg_edit, true);
-            } else if (position == notificationSoundRow) {
-                cell.setTextAndValueAndIcon("Звуки уведомлений",
-                        "Глобальные и для отдельных чатов", R.drawable.msg_notifications, false);
+                cell.setTextAndValueAndIcon("Подпись уведомлений",
+                        caption, R.drawable.msg_edit, true);
             } else if (position == featureHubRow) {
                 cell.setTextAndValueAndIcon("Лаборатория Roflan",
                         "Автоматизация, профили, сеть и дополнительные инструменты", R.drawable.msg_filled_data_music, true);
@@ -243,7 +237,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         if (activity == null) return;
         EditText input = new EditText(activity);
         input.setSingleLine(true);
-        input.setHint("Например: не забудь улыбнуться");
+        input.setHint("Здесь могла быть ваша реклама");
         input.setText(NotificationStudio.getCaption());
         new AlertDialog.Builder(activity)
                 .setTitle("Своя подпись к уведомлениям")
@@ -253,8 +247,8 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                     NotificationStudio.setCaption(input.getText().toString());
                     if (listAdapter != null) listAdapter.notifyDataSetChanged();
                 })
-                .setNeutralButton("Очистить", (dialog, which) -> {
-                    NotificationStudio.setCaption("");
+                .setNeutralButton("Сбросить", (dialog, which) -> {
+                    NotificationStudio.setCaption(NotificationStudio.DEFAULT_CAPTION);
                     if (listAdapter != null) listAdapter.notifyDataSetChanged();
                 })
                 .setNegativeButton(getString(R.string.Cancel), null)

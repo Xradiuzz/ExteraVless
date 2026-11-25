@@ -5810,6 +5810,9 @@
     <string name="AppIconPremium">Premium</string>
     <string name="AppIconTurbo">Turbo</string>
     <string name="AppIconNox">Nox</string>
+    <string name="AppIconRoflanBlue">Roflan Blue</string>
+    <string name="AppIconRoflanDark">Roflan Night</string>
+    <string name="AppIconRoflanAurora">Roflan Aurora</string>
     <string name="AppIconChangedTo">App icon has been changed to %1$s</string>
     <string name="FileTooLarge">File Too Large</string>
     <string name="PremiumPreviewAppIcon">Premium App Icon</string>
