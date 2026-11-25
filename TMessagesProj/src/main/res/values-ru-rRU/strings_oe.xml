@@ -72,4 +72,15 @@
     <string name="ExteraVlessDanceChats">Танцующие чаты</string>
     <string name="ExteraVlessDanceChatsOn">Нажми, чтобы остановить танец</string>
     <string name="ExteraVlessDanceChatsOff">Заставить список чатов подпрыгивать</string>
+    <string name="RoflanRouletteTitle">Рулетка событий</string>
+    <string name="RoflanRouletteInfo">Крути рулетку и получай случайное бедствие внутри клиента. Эффекты локальные.</string>
+    <string name="RoflanRouletteSpin">Крутить</string>
+    <string name="RoflanEventClose">Telegram закрывается!</string>
+    <string name="RoflanEventDance">Танцы чатов включены!</string>
+    <string name="RoflanEventCalm">Танцы закончились.</string>
+    <string name="RoflanEventEarthquake">Землетрясение! Интерфейс трясётся.</string>
+    <string name="RoflanEventBlackout">Затемнение!</string>
+    <string name="RoflanEventFlip">Интерфейс перевернулся!</string>
+    <string name="RoflanEventAlarm">Тревога! Виброоповещение.</string>
+    <string name="RoflanEventTheme">Хаос тем: выбери новый вид.</string>
 </resources>
