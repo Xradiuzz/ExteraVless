@@ -85,8 +85,10 @@ public final class ChatSeasonalDecorationView extends View {
         if (w <= 0 || h <= 0) return;
 
         float t = (System.currentTimeMillis() - start) / 1000f;
-        if (ChatDecorationConfig.headerStyle() > 0) drawChristmasHeader(canvas, w, t);
-        if (ChatDecorationConfig.snowEnabled()) drawSnow(canvas, w, h, t);
+        if (ChatDecorationConfig.headerStyle() > 0) drawHeader(canvas, w, t);
+        // Snow is the CHRISTMAS effect itself. Drawing it over every other particle
+        // mode created two independent particle layers and made them visually pile up.
+        if (ChatDecorationConfig.snowEnabled() && mode == ChatDecorationConfig.CHRISTMAS) drawSnow(canvas, w, h, t);
         if (mode != ChatDecorationConfig.OFF && mode != ChatDecorationConfig.CHRISTMAS) {
             int count = Math.min(intensity, 60);
             for (int i = 0; i < count; i++) {
@@ -303,6 +305,45 @@ public final class ChatSeasonalDecorationView extends View {
 
     private int iCandyColor() {
         return 0xFFE85D75;
+    }
+
+    private void drawHeader(Canvas canvas, float width, float t) {
+        int style = ChatDecorationConfig.headerStyle();
+        if (style == 1) {
+            drawChristmasHeader(canvas, width, t);
+            return;
+        }
+        float top = AndroidUtilities.dp(10);
+        if (style == 2) {
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(AndroidUtilities.dp(2));
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setColor(0x8879B8FF);
+            path.reset();
+            path.moveTo(0, top + AndroidUtilities.dp(8));
+            path.quadTo(width * .5f, top - AndroidUtilities.dp(2), width, top + AndroidUtilities.dp(8));
+            canvas.drawPath(path, paint);
+            paint.setStyle(Paint.Style.FILL);
+            for (int i = 0; i < 9; i++) {
+                float x = width * (i + .5f) / 9f;
+                paint.setColor(i % 2 == 0 ? 0xFF8AB4F8 : 0xFFB39DDB);
+                canvas.drawCircle(x, top + AndroidUtilities.dp(7 + (i % 2) * 3), AndroidUtilities.dp(2.2f), paint);
+            }
+        } else if (style == 3) {
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setStrokeWidth(AndroidUtilities.dp(4));
+            paint.setColor(0x5579E6D2);
+            path.reset();
+            path.moveTo(0, top + AndroidUtilities.dp(13));
+            path.cubicTo(width * .22f, top - AndroidUtilities.dp(3), width * .48f, top + AndroidUtilities.dp(25), width * .7f, top + AndroidUtilities.dp(8));
+            path.cubicTo(width * .82f, top - AndroidUtilities.dp(1), width * .92f, top + AndroidUtilities.dp(6), width, top + AndroidUtilities.dp(3));
+            canvas.drawPath(path, paint);
+            paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
+            paint.setColor(0xAA9FE8FF);
+            canvas.drawPath(path, paint);
+            paint.setStyle(Paint.Style.FILL);
+        }
     }
 
     private void drawChristmasHeader(Canvas canvas, float width, float t) {
