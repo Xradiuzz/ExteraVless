@@ -67,4 +67,6 @@
     <string name="OEProfileJoinDateUnknown">Дата вступления недоступна</string>
     <string name="AppIconsSelect">Выбрать</string>
     <string name="AppIconsKeep">Оставить эту</string>
+    <string name="ExteraVlessWallpapers">Обои и темы чатов</string>
+    <string name="ExteraVlessWallpapersInfo">Фоны, цвета и оформление переписки</string>
 </resources>
