@@ -211,6 +211,15 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             } else if (position == notificationSoundRow) {
                 cell.setTextAndValueAndIcon("Звуки уведомлений",
                         "Глобальные и для отдельных чатов", R.drawable.msg_notifications, false);
+            } else if (position == featureHubRow) {
+                cell.setTextAndValueAndIcon("Лаборатория Roflan",
+                        "Автоматизация, профили, сеть и дополнительные инструменты", R.drawable.msg_filled_data_music, true);
+            } else if (position == colorStudioRow) {
+                cell.setTextAndValueAndIcon("Цветовая студия",
+                        "RGB-палитра, цветные темы и настройка фона чатов", R.drawable.msg_theme, true);
+            } else if (position == decorationRow) {
+                cell.setTextAndValueAndIcon("Декорации чатов",
+                        "Новогодняя шапка, снег и анимированные эффекты частиц", R.drawable.msg_theme, true);
             }
         }
     }
