@@ -34,6 +34,7 @@ import org.telegram.ui.ThemeActivity;
 
 import app.exteraless.appearance.AppearanceConfig;
 import app.exteraless.fun.ChatDanceMode;
+import app.exteraless.fun.LizardPetOverlay;
 import app.exteraless.icons.IconPacksActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.config.ConfigItem;
@@ -53,9 +54,11 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
     private int rouletteRow;
     private int dividerRow;
 
+    // Первые шесть секторов — благоприятные, остальные — испытания.
     private static final String[] EVENT_LABELS = {
-            "Закрытие Telegram", "Танцующие чаты", "Тишина", "Землетрясение",
-            "Затемнение", "Переворот", "Тревога", "Хаос тем"
+            "Удача!", "Тишина", "Ящерка", "Новая тема", "Чистый экран", "Покой",
+            "Танцы", "Землетрясение", "Затемнение", "Переворот", "Тревога",
+            "Закрытие", "Хаос тем", "Дрожь", "Сюрприз", "Проклятие"
     };
 
     public OpenExteraRoflanActivity() {
@@ -294,45 +297,92 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
         if (activity == null) return;
         View root = activity.getWindow().getDecorView();
         switch (event) {
+            // Благоприятные сектора: никаких разрушительных действий.
             case 0:
-                Toast.makeText(activity, getString(R.string.RoflanEventClose), Toast.LENGTH_SHORT).show();
-                root.postDelayed(activity::finishAffinity, 350);
+                root.animate().alpha(0.72f).setDuration(140).withEndAction(() ->
+                        root.animate().alpha(1f).setDuration(420).start()).start();
+                Toast.makeText(activity, "🍀 Сегодня тебе везёт!", Toast.LENGTH_LONG).show();
                 break;
             case 1:
+                ChatDanceMode.setEnabled(false);
+                Toast.makeText(activity, "Тишина и спокойствие. Танцы отключены.", Toast.LENGTH_SHORT).show();
+                finishFragment();
+                break;
+            case 2:
+                LizardPetOverlay.toggle(activity);
+                Toast.makeText(activity, "У тебя появился маленький компаньон 🦎", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
+                Toast.makeText(activity, "Выбери себе новую тему!", Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                root.animate().translationY(-dp(8)).alpha(0.9f).setDuration(180).withEndAction(() ->
+                        root.animate().translationY(0).alpha(1f).setDuration(260).start()).start();
+                Toast.makeText(activity, "Экран очищен от негатива.", Toast.LENGTH_SHORT).show();
+                break;
+            case 5:
+                ChatDanceMode.setEnabled(false);
+                root.animate().rotation(0).translationX(0).translationY(0).alpha(1f).scaleX(1f).scaleY(1f).setDuration(280).start();
+                Toast.makeText(activity, "Режим покоя активирован.", Toast.LENGTH_SHORT).show();
+                finishFragment();
+                break;
+
+            // Неблагоприятные сектора.
+            case 6:
                 ChatDanceMode.setEnabled(true);
                 Toast.makeText(activity, getString(R.string.RoflanEventDance), Toast.LENGTH_SHORT).show();
                 finishFragment();
                 break;
-            case 2:
-                ChatDanceMode.setEnabled(false);
-                Toast.makeText(activity, getString(R.string.RoflanEventCalm), Toast.LENGTH_SHORT).show();
-                finishFragment();
-                break;
-            case 3:
-                root.animate().translationX(dp(14)).setDuration(70).withEndAction(() ->
-                        root.animate().translationX(-dp(14)).setDuration(70).withEndAction(() ->
-                                root.animate().translationX(0).setDuration(70).start()).start()).start();
+            case 7:
+                shake(root);
                 Toast.makeText(activity, getString(R.string.RoflanEventEarthquake), Toast.LENGTH_SHORT).show();
                 break;
-            case 4:
-                root.animate().alpha(0.06f).setDuration(160).withEndAction(() ->
-                        root.animate().alpha(1f).setDuration(260).start()).start();
+            case 8:
+                root.animate().alpha(0.04f).setDuration(180).withEndAction(() ->
+                        root.animate().alpha(1f).setDuration(360).start()).start();
                 Toast.makeText(activity, getString(R.string.RoflanEventBlackout), Toast.LENGTH_SHORT).show();
                 break;
-            case 5:
-                root.animate().rotation(180f).setDuration(350).withEndAction(() ->
-                        root.animate().rotation(0f).setDuration(350).start()).start();
+            case 9:
+                root.animate().rotation(180f).setDuration(420).withEndAction(() ->
+                        root.animate().rotation(0f).setDuration(420).start()).start();
                 Toast.makeText(activity, getString(R.string.RoflanEventFlip), Toast.LENGTH_SHORT).show();
                 break;
-            case 6:
+            case 10:
                 root.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
                 Toast.makeText(activity, getString(R.string.RoflanEventAlarm), Toast.LENGTH_LONG).show();
                 break;
-            default:
+            case 11:
+                Toast.makeText(activity, getString(R.string.RoflanEventClose), Toast.LENGTH_SHORT).show();
+                root.postDelayed(activity::finishAffinity, 500);
+                break;
+            case 12:
                 presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
                 Toast.makeText(activity, getString(R.string.RoflanEventTheme), Toast.LENGTH_SHORT).show();
                 break;
+            case 13:
+                shake(root);
+                root.postDelayed(() -> shake(root), 260);
+                Toast.makeText(activity, "Интерфейс трясёт. Держись!", Toast.LENGTH_SHORT).show();
+                break;
+            case 14:
+                LizardPetOverlay.toggle(activity);
+                root.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP);
+                Toast.makeText(activity, "Сюрприз! Лови ящерицу 🦎", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                root.animate().alpha(0.12f).scaleX(0.98f).scaleY(0.98f).setDuration(220).withEndAction(() ->
+                        root.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(520).start()).start();
+                Toast.makeText(activity, "Проклятие тем. Сегодня без удачи.", Toast.LENGTH_LONG).show();
+                break;
         }
+    }
+
+    private void shake(View root) {
+        root.animate().translationX(dp(14)).setDuration(65).withEndAction(() ->
+                root.animate().translationX(-dp(14)).setDuration(65).withEndAction(() ->
+                        root.animate().translationX(dp(8)).setDuration(65).withEndAction(() ->
+                                root.animate().translationX(0).setDuration(80).start()).start()).start()).start();
     }
 
     private static final class RouletteWheel extends View {
@@ -342,8 +392,10 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
                 "CLOSE", "DANCE", "CALM", "QUAKE", "DARK", "FLIP", "ALARM", "THEME"
         };
         private final int[] colors = {
-                0xFFEA6B63, 0xFF4F9ED8, 0xFF70B77E, 0xFFE2A34A,
-                0xFF6676C8, 0xFF9A70C8, 0xFFCE668E, 0xFF5D9F9A
+                0xFF65B979, 0xFF69A9E8, 0xFF77C9A0, 0xFF8CBA70,
+                0xFF5BB8B1, 0xFF9ACB72, 0xFFDB8B58, 0xFFE16D62,
+                0xFF9A6BC7, 0xFFCE668E, 0xFFE0A23F, 0xFFB94F59,
+                0xFF7657A8, 0xFFD46F4D, 0xFF527FAE, 0xFF8E4C62
         };
         private float rotation;
         private boolean spinning;
@@ -357,7 +409,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
 
         void spinTo(int index, Runnable finished) {
             spinning = true;
-            float targetDelta = (360f - ((rotation + index * 45f + 22.5f) % 360f)) % 360f;
+            float targetDelta = (360f - ((rotation + index * 22.5f + 11.25f) % 360f)) % 360f;
             float target = 360f * 5f + targetDelta;
             ValueAnimator animator = ValueAnimator.ofFloat(rotation, rotation + target);
             animator.setDuration(4800);
@@ -389,14 +441,14 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             for (int i = 0; i < labels.length; i++) {
                 paint.setColor(colors[i]);
                 paint.setStyle(Paint.Style.FILL);
-                canvas.drawArc(bounds, -90f + i * 45f, 45f, true, paint);
+                canvas.drawArc(bounds, -90f + i * 22.5f, 22.5f, true, paint);
 
                 paint.setColor(0xFFFFFFFF);
-                paint.setTextSize(dp(10));
+                paint.setTextSize(dp(8));
                 paint.setTypeface(android.graphics.Typeface.create("sans-serif", android.graphics.Typeface.BOLD));
                 paint.setTextAlign(Paint.Align.CENTER);
                 canvas.save();
-                canvas.rotate(i * 45f + 22.5f, cx, cy);
+                canvas.rotate(i * 22.5f + 11.25f, cx, cy);
                 canvas.drawText(labels[i], cx, cy - radius * 0.66f, paint);
                 canvas.restore();
             }
