@@ -82,6 +82,14 @@ public final class LizardPetOverlay extends View {
     }
 
     @Override
+    protected void onDetachedFromWindow() {
+        crawl.cancel();
+        if (petAnimation != null) petAnimation.cancel();
+        if (active == this) active = null;
+        super.onDetachedFromWindow();
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float unit = AndroidUtilities.dpf2(1f);
