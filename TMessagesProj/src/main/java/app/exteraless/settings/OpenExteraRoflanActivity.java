@@ -39,6 +39,7 @@ import app.exteraless.fun.ChatDanceMode;
 import app.exteraless.fun.LizardPetOverlay;
 import app.exteraless.notifications.NotificationStudio;
 import app.exteraless.icons.IconPacksActivity;
+import app.exteraless.legacyui.LegacyUiController;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.config.ConfigItem;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
@@ -259,46 +260,14 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
      * 0 = legacy controls, 2 = Material 3 controls in this fork.
      */
     private void applyLegacyPreset(int preset) {
-        boolean classic2018 = preset == 0;
-        boolean classic = preset != 2;
-
-        AppearanceConfig.newLoadingStyle.setConfigBool(!classic);
-        AppearanceConfig.newChatHeaderStyle.setConfigBool(false);
-        AppearanceConfig.newNavigationBarStyle.setConfigBool(false);
-        AppearanceConfig.m3ListItems.setConfigBool(false);
-        AppearanceConfig.md3Player.setConfigBool(!classic);
-        AppearanceConfig.md3MiniPlayer.setConfigBool(!classic);
-        AppearanceConfig.iosNavigationBarStyle.setConfigBool(false);
-        AppearanceConfig.iosChatHeader.setConfigBool(false);
-        AppearanceConfig.squareFab.setConfigBool(!classic);
-        AppearanceConfig.separateHeaders.setConfigBool(!classic);
-        AppearanceConfig.sectionRadius.setConfigInt(classic2018 ? 0 : (classic ? 12 : 20));
-        AppearanceConfig.dividerStyle.setConfigInt(1);
-        AppearanceConfig.setCenterTitle(false);
-        AppearanceConfig.gooeyAvatarAnimation.setConfigBool(!classic);
-        NaConfig.INSTANCE.getSliderStyle().setConfigInt(classic ? 0 : 2);
-        NaConfig.INSTANCE.getSwitchStyle().setConfigInt(classic ? 0
-                : org.telegram.ui.Components.Switch.SWITCH_STYLE_M3);
-        if (classic) {
-            MainTabsLayoutCompat.restoreDefaultNavigation();
-        }
-        Theme.applyCommonTheme();
+        LegacyUiController.apply(preset);
         if (getParentLayout() != null) {
             getParentLayout().rebuildAllFragmentViews(false, false);
         }
         if (listAdapter != null) listAdapter.notifyDataSetChanged();
-        Toast.makeText(getParentActivity(), getString(R.string.RoflanLegacyApplied),
+        String[] names = {"Telegram 2018", "Telegram 2021", "Современный"};
+        Toast.makeText(getParentActivity(), "Профиль интерфейса: " + names[Math.max(0, Math.min(2, preset))],
                 Toast.LENGTH_LONG).show();
-    }
-
-    /** Keep the legacy preset free of a dependency on a particular tab implementation. */
-    private static final class MainTabsLayoutCompat {
-        static void restoreDefaultNavigation() {
-            if (org.telegram.ui.MainTabsLayout.isBottomNavigationFloating()) {
-                org.telegram.ui.MainTabsLayout.setBottomNavigationMode(
-                        org.telegram.ui.MainTabsLayout.BOTTOM_NAVIGATION_MODE_SHOW);
-            }
-        }
     }
 
     private void showAnimatedRoulette() {
