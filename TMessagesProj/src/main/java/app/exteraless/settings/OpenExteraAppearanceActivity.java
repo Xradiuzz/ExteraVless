@@ -145,6 +145,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
     private int linksHeaderRow;
     private int appNavigationRow;
     private int wallpapersRow;
+    private int danceChatsRow;
     private int iconPacksRow;
     private int emojiSetsRow;
     private int pillStackRow;
@@ -205,6 +206,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         linksHeaderRow = addRow("linksHeader");
         appNavigationRow = addRow("appNavigation");
         wallpapersRow = addRow("wallpapers");
+        danceChatsRow = addRow("danceChats");
         iconPacksRow = addRow("iconPacks");
         emojiSetsRow = addRow("emojiSets", "EmojiSets");
         pillStackRow = addRow("pillStack");
@@ -615,6 +617,10 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
         if (position == wallpapersRow) {
             // Штатный менеджер Telegram: темы и фоновые изображения.
             presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
+            return;
+        } else if (position == danceChatsRow) {
+            app.exteraless.fun.ChatDanceMode.setEnabled(!app.exteraless.fun.ChatDanceMode.isEnabled());
+            finishFragment();
             return;
         } else if (position == iconPacksRow) {
             presentFragment(new IconPacksActivity());
@@ -1101,6 +1107,11 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                         cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceNavigation), getString(R.string.OEAppearanceNavigationSub), R.drawable.msg_newphone, true);
                     } else if (position == wallpapersRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessWallpapers), getString(R.string.ExteraVlessWallpapersInfo), R.drawable.msg_theme, true);
+                    } else if (position == danceChatsRow) {
+                        boolean enabled = app.exteraless.fun.ChatDanceMode.isEnabled();
+                        cell.setTextAndValueAndIcon(getString(R.string.ExteraVlessDanceChats),
+                                getString(enabled ? R.string.ExteraVlessDanceChatsOn : R.string.ExteraVlessDanceChatsOff),
+                                R.drawable.msg_emoji_smiles, true);
                     } else if (position == iconPacksRow) {
                         cell.setTextAndValueAndIcon(getString(R.string.OEAppearanceIconPacks), getString(R.string.OEAppearanceIconPacksInfo), R.drawable.msg_sticker, true);
                     } else if (position == emojiSetsRow) {
@@ -1179,7 +1190,7 @@ public class OpenExteraAppearanceActivity extends BaseNekoSettingsActivity {
                 return TYPE_INFO_PRIVACY;
             } else if (position == fabShapeRow) {
                 return TYPE_FAB_SHAPE;
-            } else if (position == appNavigationRow || position == wallpapersRow || position == iconPacksRow
+            } else if (position == appNavigationRow || position == wallpapersRow || position == danceChatsRow || position == iconPacksRow
                     || position == emojiSetsRow || position == pillStackRow || position == playerStyleRow || position == hidingRow) {
                 return TYPE_DETAIL_SETTINGS;
             } else if (position == md3GroupRow || position == iosGroupRow) {
