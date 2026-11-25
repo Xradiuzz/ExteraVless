@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import app.exteraless.appearance.AppearanceConfig;
+import app.exteraless.icons.BaseIconPacks;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.ui.ActionBar.Theme;
@@ -25,6 +26,7 @@ public final class LegacyUiController {
 
     private static final String PREFS = "exteraless_legacy_ui";
     private static final String KEY_PREVIOUS_THEME = "previous_theme";
+    private static final String KEY_PREVIOUS_ICON_PACK = "previous_icon_pack";
 
     private LegacyUiController() {}
 
@@ -51,6 +53,7 @@ public final class LegacyUiController {
         AppearanceConfig.gooeyAvatarAnimation.setConfigBool(!classic);
         AppearanceConfig.navigationDrawer.setConfigBool(false);
         AppearanceConfig.immersiveDrawerAnimation.setConfigBool(false);
+        if (classic) BaseIconPacks.setSelected(BaseIconPacks.BASE_DEFAULT);
 
         NaConfig.INSTANCE.getSliderStyle().setConfigInt(classic ? 0 : 2);
         NaConfig.INSTANCE.getSwitchStyle().setConfigInt(classic ? 0
@@ -75,6 +78,9 @@ public final class LegacyUiController {
         if (current != null) {
             prefs().edit().putString(KEY_PREVIOUS_THEME, current.getKey()).apply();
         }
+        if (!prefs().contains(KEY_PREVIOUS_ICON_PACK)) {
+            prefs().edit().putInt(KEY_PREVIOUS_ICON_PACK, BaseIconPacks.getSelected()).apply();
+        }
     }
 
     private static void applyClassicTheme() {
@@ -89,7 +95,9 @@ public final class LegacyUiController {
         String previous = prefs().getString(KEY_PREVIOUS_THEME, "Blue");
         Theme.ThemeInfo theme = Theme.getTheme(previous);
         if (theme != null) Theme.applyTheme(theme);
-        prefs().edit().remove(KEY_PREVIOUS_THEME).apply();
+        int iconPack = prefs().getInt(KEY_PREVIOUS_ICON_PACK, BaseIconPacks.BASE_DEFAULT);
+        BaseIconPacks.setSelected(iconPack);
+        prefs().edit().remove(KEY_PREVIOUS_THEME).remove(KEY_PREVIOUS_ICON_PACK).apply();
     }
 
     private static void restoreStockNavigation() {
