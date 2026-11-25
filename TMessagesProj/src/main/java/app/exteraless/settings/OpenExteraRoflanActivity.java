@@ -145,11 +145,7 @@ public class OpenExteraRoflanActivity extends BaseNekoSettingsActivity {
             showNotificationStyleDialog();
         } else if (position == notificationCaptionRow) {
             showNotificationCaptionDialog();
-        } else if (position == colorStudioRow) {
-                cell.setTextAndValueAndIcon("Цветовая студия", "RGB-фон и цветные темы чатов", R.drawable.msg_theme, true);
-            } else if (position == decorationRow) {
-                cell.setTextAndValueAndIcon("Декорации чатов", "Ёлка, сакура и анимации", R.drawable.msg_theme, true);
-            } else if (position == notificationSoundRow) {
+        } else if (position == notificationSoundRow) {
             presentFragment(new NotificationsSettingsActivity());
         } else if (position == featureHubRow) {
             presentFragment(new RoflanFeatureHubActivity());
