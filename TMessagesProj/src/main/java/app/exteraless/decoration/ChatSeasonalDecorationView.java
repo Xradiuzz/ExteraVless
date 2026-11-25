@@ -60,10 +60,18 @@ public final class ChatSeasonalDecorationView extends View {
         if (view != null) {
             view.mode = ChatDecorationConfig.mode();
             view.intensity = ChatDecorationConfig.intensity();
+            view.updateParticleColors();
             view.start = System.currentTimeMillis();
             view.invalidate();
             if (view.mode != ChatDecorationConfig.OFF && view.isAttachedToWindow()) view.postInvalidateOnAnimation();
         }
+    }
+
+    private void updateParticleColors() {
+        int[] sakura = {0xD9F48FB1, 0xD9F8BBD0, 0xD9EC789A, 0xD9FFE0E8};
+        int[] confetti = {0xB9FF5252, 0xB9FFD740, 0xB940C4FF, 0xB966BB6A, 0xB9AB47BC};
+        int[] palette = mode == ChatDecorationConfig.SAKURA ? sakura : confetti;
+        for (int i = 0; i < colors.length; i++) colors[i] = palette[i % palette.length];
     }
 
     @Override protected void onDraw(Canvas canvas) {
