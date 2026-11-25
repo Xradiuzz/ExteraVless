@@ -98,4 +98,6 @@
     <string name="RoflanRouletteDone">Готово</string>
     <string name="RoflanRouletteResult">Выпало событие: %1$s</string>
     <string name="RoflanLegacyApplied">Визуальный пресет применён</string>
+    <string name="RoflanAppIconsTitle">Иконки приложения</string>
+    <string name="RoflanAppIconsInfo">Выбери значок приложения на рабочем столе</string>
 </resources>
