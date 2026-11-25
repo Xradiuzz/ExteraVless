@@ -9,6 +9,7 @@
 package org.telegram.messenger;
 
 import app.exteraless.notifications.NotificationsHelper;
+import app.exteraless.notifications.NotificationStudio;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -4879,6 +4880,8 @@ public class NotificationsController extends BaseController implements Notificat
                     .setShowWhen(true)
                     .setWhen(((long) lastMessageObject.messageOwner.date) * 1000)
                     .setColor(NekoXConfig.getNotificationColor());
+
+            NotificationStudio.apply(mBuilder, name, lastMessage == null ? detailText : lastMessage, largeBitmap);
 
             long[] vibrationPattern = null;
             Uri sound = null;
