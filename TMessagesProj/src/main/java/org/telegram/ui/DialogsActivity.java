@@ -5834,8 +5834,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         glassEngine.setGlassInvalidationListener(this::invalidateBlurCaptures);
         glassEngine.setPositionsMerger(new GlassPositionsMerger(Float.POSITIVE_INFINITY, dp(48)));
 
-        if (!onlySelect && folderId == 0 && communityId == 0
-                && app.exteraless.decoration.ChatDecorationConfig.mode() != app.exteraless.decoration.ChatDecorationConfig.OFF) {
+        if (!onlySelect && folderId == 0 && communityId == 0) {
             app.exteraless.decoration.ChatSeasonalDecorationView seasonalDecoration =
                     new app.exteraless.decoration.ChatSeasonalDecorationView(context);
             contentView.addView(seasonalDecoration, LayoutHelper.createFrame(
