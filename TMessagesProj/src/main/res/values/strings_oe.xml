@@ -99,4 +99,15 @@
     <string name="ExteraVlessDanceChats">Dancing chats</string>
     <string name="ExteraVlessDanceChatsOn">Tap to stop the dance</string>
     <string name="ExteraVlessDanceChatsOff">Make the chat list bounce around</string>
+    <string name="RoflanRouletteTitle">Roflan Event Roulette</string>
+    <string name="RoflanRouletteInfo">Spin for a random in-app disaster. Effects are local to this client.</string>
+    <string name="RoflanRouletteSpin">Spin</string>
+    <string name="RoflanEventClose">The app is closing!</string>
+    <string name="RoflanEventDance">Chat list dance activated!</string>
+    <string name="RoflanEventCalm">The dance is over.</string>
+    <string name="RoflanEventEarthquake">Earthquake! The interface is shaking.</string>
+    <string name="RoflanEventBlackout">Blackout!</string>
+    <string name="RoflanEventFlip">The interface turned upside down!</string>
+    <string name="RoflanEventAlarm">Emergency alarm! Haptic alert.</string>
+    <string name="RoflanEventTheme">Theme chaos: choose a new look.</string>
 </resources>
