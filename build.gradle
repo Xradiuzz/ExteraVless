@@ -21,9 +21,9 @@ subprojects {
     afterEvaluate {
         if (plugins.hasPlugin("com.android.application")) {
             android {
-                // API 37 is not yet available from the configured Android SDK
-                // repository in GitHub Actions; API 36 is sufficient for this build.
-                compileSdk = 36
+                // Android 17 API 37.0 is published as a minor-version SDK package.
+                compileSdk = 37
+                compileSdkMinor = 0
                 buildToolsVersion = "36.0.0"
                 ndkVersion = "27.2.12479018"
 
