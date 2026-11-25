@@ -2,6 +2,9 @@ package app.exteraless.decoration;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -10,6 +13,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 
 import java.lang.ref.WeakReference;
+import java.io.InputStream;
 import java.util.Random;
 
 /** Lightweight, touch-transparent overlay for seasonal header art and animated particles. */
@@ -25,6 +29,8 @@ public final class ChatSeasonalDecorationView extends View {
     private final float[] phase = new float[60];
     private final RectF rect = new RectF();
     private final Path path = new Path();
+    private Bitmap[] customBitmaps = new Bitmap[0];
+    private String customBitmapKey = "";
 
     private long start;
     private int mode;
@@ -46,11 +52,13 @@ public final class ChatSeasonalDecorationView extends View {
             size[i] = 2.5f + random.nextFloat() * 5.5f;
             phase[i] = random.nextFloat() * 6.28f;
         }
+        loadCustomBitmaps();
         setWillNotDraw(false);
     }
 
     @Override protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        loadCustomBitmaps();
         if (mode != ChatDecorationConfig.OFF) postInvalidateOnAnimation();
     }
 
@@ -59,6 +67,7 @@ public final class ChatSeasonalDecorationView extends View {
         if (view != null) {
             view.mode = ChatDecorationConfig.mode();
             view.intensity = ChatDecorationConfig.intensity();
+            view.loadCustomBitmaps();
             view.start = System.currentTimeMillis();
             view.invalidate();
             if (view.mode != ChatDecorationConfig.OFF && view.isAttachedToWindow()) {
@@ -76,15 +85,14 @@ public final class ChatSeasonalDecorationView extends View {
         if (w <= 0 || h <= 0) return;
 
         float t = (System.currentTimeMillis() - start) / 1000f;
-        if (mode == ChatDecorationConfig.CHRISTMAS) {
-            drawChristmasHeader(canvas, w, t);
-            drawSnow(canvas, w, h, t);
-        } else {
+        if (ChatDecorationConfig.headerStyle() > 0) drawChristmasHeader(canvas, w, t);
+        if (ChatDecorationConfig.snowEnabled()) drawSnow(canvas, w, h, t);
+        if (mode != ChatDecorationConfig.OFF && mode != ChatDecorationConfig.CHRISTMAS) {
             int count = Math.min(intensity, 60);
             for (int i = 0; i < count; i++) {
                 float drift = (float) Math.sin(t * 0.7f + phase[i]) * AndroidUtilities.dp(18);
                 float px = wrap(x[i] * w + drift, w);
-                float py = wrap(y[i] * h + t * speed[i] * h * 0.34f, h);
+                float py = wrap(y[i] * h + t * speed[i] * ChatDecorationConfig.particleSpeed() / 100f * h * 0.34f, h);
                 canvas.save();
                 canvas.translate(px, py);
                 canvas.rotate((float) Math.sin(t * 0.8f + phase[i]) * 70f);
@@ -104,7 +112,7 @@ public final class ChatSeasonalDecorationView extends View {
         for (int i = 0; i < count; i++) {
             float sway = (float) Math.sin(t * 0.8f + phase[i]) * AndroidUtilities.dp(22);
             float px = wrap(x[i] * width + sway, width);
-            float py = wrap(y[i] * height + t * (0.12f + speed[i] * 0.45f) * height, height);
+            float py = wrap(y[i] * height + t * (0.12f + speed[i] * 0.45f) * ChatDecorationConfig.particleSpeed() / 100f * height, height);
             float radius = AndroidUtilities.dp(1.2f + size[i] * 0.34f);
             paint.setColor(i % 4 == 0 ? 0xEFFFFFFF : 0xBFFFFFFF);
             paint.setStyle(Paint.Style.FILL);
@@ -118,7 +126,7 @@ public final class ChatSeasonalDecorationView extends View {
     }
 
     private void drawParticle(Canvas canvas, int i, float t) {
-        float s = AndroidUtilities.dp(size[i]);
+        float s = AndroidUtilities.dp(size[i] * ChatDecorationConfig.particleSize() / 100f);
         switch (mode) {
             case ChatDecorationConfig.SAKURA:
                 paint.setColor(new int[]{0xD9F48FB1, 0xD9F8BBD0, 0xD9EC789A, 0xD9FFE0E8}[i % 4]);
@@ -184,10 +192,45 @@ public final class ChatSeasonalDecorationView extends View {
                 paint.setTextSize(s * 1.25f);
                 canvas.drawText("$", 0, s * 0.43f, paint);
                 break;
+            case ChatDecorationConfig.CUSTOM_IMAGE:
+                drawCustomParticle(canvas, i, s);
+                break;
             default:
                 paint.setColor(0xFFFFFFFF);
                 canvas.drawCircle(0, 0, s * 0.45f, paint);
                 break;
+        }
+    }
+
+    private void drawCustomParticle(Canvas canvas, int index, float s) {
+        if (customBitmaps.length == 0) {
+            paint.setColor(0xFFFFFFFF);
+            drawStar(canvas, s * 1.2f);
+            return;
+        }
+        Bitmap bitmap = customBitmaps[index % customBitmaps.length];
+        if (bitmap == null || bitmap.isRecycled()) return;
+        rect.set(-s * 1.45f, -s * 1.45f, s * 1.45f, s * 1.45f);
+        paint.setAlpha(ChatDecorationConfig.particleOpacity());
+        canvas.drawBitmap(bitmap, null, rect, paint);
+        paint.setAlpha(255);
+    }
+
+    private void loadCustomBitmaps() {
+        String[] uris = ChatDecorationConfig.customParticleUris();
+        StringBuilder key = new StringBuilder();
+        for (String uri : uris) key.append(uri).append('|');
+        if (key.toString().equals(customBitmapKey)) return;
+        for (Bitmap bitmap : customBitmaps) if (bitmap != null && !bitmap.isRecycled()) bitmap.recycle();
+        customBitmaps = new Bitmap[uris.length];
+        customBitmapKey = key.toString();
+        if (getContext() == null) return;
+        for (int i = 0; i < uris.length; i++) {
+            try (InputStream input = getContext().getContentResolver().openInputStream(Uri.parse(uris[i]))) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                customBitmaps[i] = BitmapFactory.decodeStream(input, null, options);
+            } catch (Exception ignored) {}
         }
     }
 
@@ -263,8 +306,9 @@ public final class ChatSeasonalDecorationView extends View {
     }
 
     private void drawChristmasHeader(Canvas canvas, float width, float t) {
+        int headerStyle = ChatDecorationConfig.headerStyle();
+        if (headerStyle == 0) return;
         float top = AndroidUtilities.dp(7);
-        float dp = AndroidUtilities.dpf2(1f);
 
         // Two layered, gently sagging garlands.
         paint.setStyle(Paint.Style.STROKE);
@@ -295,7 +339,7 @@ public final class ChatSeasonalDecorationView extends View {
         }
 
         // Hanging lights with a subtle twinkle pulse.
-        int[] lights = {0xFFFF5252, 0xFFFFD54F, 0xFF40C4FF, 0xFFE040FB, 0xFF69F0AE, 0xFFFF8A65};
+        int[] lights = headerStyle == 3 ? new int[]{0xFF6DE7D8,0xFF74B8FF,0xFFB79CFF,0xFFFFB8E5,0xFF9CF2C8} : new int[]{0xFFFF5252,0xFFFFD54F,0xFF40C4FF,0xFFE040FB,0xFF69F0AE,0xFFFF8A65};
         paint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < 13; i++) {
             float px = width * (i + 0.5f) / 13f;
